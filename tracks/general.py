@@ -1,5 +1,5 @@
 # Тест «Разговорный английский» (и «Просто интересно»): повседневные темы.
-# Первый вариант ответа в каждом вопросе — правильный, бот перемешивает варианты сам.
+# Первый вариант ответа в каждом вопросе - правильный, бот перемешивает варианты сам.
 
 # ---- Часть 1. Грамматика и лексика ----
 GRAMMAR = {
@@ -58,7 +58,7 @@ TASKS = {
     "listen_easy": {
         "kind": "listening",
         "voice": "af_bella", "speed": 0.85,
-        "intro": "🎧 <b>Аудирование, задание 1</b>\n\nПослушайте голосовое сообщение и ответьте на 4 вопроса. "
+        "intro": "🎧 <b>Аудирование, задание 1</b>\n\nПослушай голосовое сообщение и ответь на 4 вопроса. "
                  "Можно слушать несколько раз.",
         "script": (
             "Hi Sam, it's Maria. I'm calling about Saturday. I'm really sorry, but I can't meet you at six, "
@@ -84,7 +84,7 @@ TASKS = {
         "kind": "listening",
         "voice": "af_heart", "speed": 1.0,
         "intro": "🎧 <b>Аудирование, задание 2</b>\n\nЭто задание сложнее: отрывок из подкаста в обычном темпе. "
-                 "Ответьте на 4 вопроса.",
+                 "Ответь на 4 вопроса.",
         "script": (
             "A lot of people assume that the key to learning a language is talent. You've either got it or you "
             "haven't. But the research really doesn't back that up. What seems to matter far more is how "
@@ -114,7 +114,7 @@ TASKS = {
     },
     "read_easy": {
         "kind": "reading",
-        "intro": "📖 <b>Чтение, задание 1</b>\n\nПрочитайте короткую статью и ответьте на 4 вопроса.",
+        "intro": "📖 <b>Чтение, задание 1</b>\n\nПрочитай короткую статью и ответь на 4 вопроса.",
         "text": (
             "<b>Little Free Libraries</b>\n\n"
             "In many towns around the world, you can find small wooden boxes standing in front of people's houses. "
@@ -142,7 +142,7 @@ TASKS = {
     },
     "read_hard": {
         "kind": "reading",
-        "intro": "📖 <b>Чтение, задание 2</b>\n\nЭтот текст сложнее. Прочитайте его и ответьте на 4 вопроса.",
+        "intro": "📖 <b>Чтение, задание 2</b>\n\nЭтот текст сложнее. Прочитай его и ответь на 4 вопроса.",
         "text": (
             "<b>The Myth of Multitasking</b>\n\n"
             "Many of us take pride in our ability to juggle several tasks at once: answering emails during "
@@ -176,11 +176,11 @@ TASKS = {
 
 # ---- Блок в PDF ----
 RECS = {
-    "title": "Ваша цель: свободно говорить",
+    "title": "Твоя цель: свободно говорить",
     "tips": [
-        "Говорите каждый день, хотя бы 5–10 минут: вслух пересказывайте, что прочитали или посмотрели.",
-        "Учите не отдельные слова, а готовые фразы и реакции: «That makes sense», «I see what you mean».",
-        "Записывайте себя на диктофон и переслушивайте: так легче заметить паузы и ошибки.",
+        "Говори каждый день, хотя бы 5-10 минут: вслух пересказывай, что прочитали или посмотрели.",
+        "Учи не отдельные слова, а готовые фразы и реакции: «That makes sense», «I see what you mean».",
+        "Записывай себя на диктофон и переслушивай: так легче заметить паузы и ошибки.",
         "Регулярная практика с живым собеседником (уроки, Speaking Club) даёт больше, чем месяцы приложений.",
     ],
 }

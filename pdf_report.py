@@ -142,13 +142,13 @@ def goal_body(track: str, goal: str, level_key: str) -> list:
     for exam, (needed, target_note) in getattr(module, "TARGETS", {}).items():
         if exam in goal:
             if ORDER.index(level_key) >= ORDER.index(needed):
-                msg = f"{exam}: {target_note}. Ваш уровень уже подходит, теперь главное — формат экзамена и стратегия."
+                msg = f"{exam}: {target_note}. Твой уровень уже подходит, теперь главное - формат экзамена и стратегия."
             else:
                 msg = f"{exam}: {target_note}. Сейчас важно подтянуть уровень и параллельно привыкать к формату заданий."
             body += [Paragraph(escape(msg), text), Spacer(1, 6)]
     body.append(bullets(recs["tips"]))
     if recs.get("resources"):
-        body += [Spacer(1, 8), Paragraph("<b>Материалы под вашу цель</b>", text), Spacer(1, 3),
+        body += [Spacer(1, 8), Paragraph("<b>Материалы под твою цель</b>", text), Spacer(1, 3),
                  bullets(recs["resources"], TAUPE)]
     return body, recs["title"]
 
@@ -160,15 +160,15 @@ def build_pdf(level_key: str, level_title: str, description: str, user_name: str
     doc = SimpleDocTemplate(buf, pagesize=A4, leftMargin=MARGIN, rightMargin=MARGIN,
                             topMargin=16 * mm, bottomMargin=18 * mm,
                             title=f"Как учить английский: {level_title}", author=config.TEACHER_NAME)
-    code = level_key if level_key != "A0" else "A0–A1"
+    code = level_key if level_key != "A0" else "A0-A1"
     name = level_title.split(" (")[0]
-    who = (f"{escape(user_name)}, " if user_name else "") + "это ваш персональный план"
+    who = (f"{escape(user_name)}, " if user_name else "") + "это твой персональный план"
     goal_line = f" · цель: {escape(goal)}" if goal else ""
 
     story = [
         pill("YOUR ENGLISH LEVEL"),
         Spacer(1, 12),
-        Paragraph("Как учить английский<br/>на вашем уровне", big_title),
+        Paragraph("Как учить английский<br/>на твоём уровне", big_title),
         Spacer(1, 6),
         Paragraph(who + goal_line, note),
         Spacer(1, 14),
@@ -185,7 +185,7 @@ def build_pdf(level_key: str, level_title: str, description: str, user_name: str
     story += [
         section("YOUR GOAL", title, body),
         section("FOCUS", "На чём сосредоточиться", [bullets(rec["focus"])]),
-        section("DAILY PLAN", "План на день: 20–30 минут", [bullets(rec["routine"]), Spacer(1, 6),
+        section("DAILY PLAN", "План на день: 20-30 минут", [bullets(rec["routine"]), Spacer(1, 6),
                                                              Paragraph(escape(COMMON_ROUTINE_NOTE), note)]),
         section("RESOURCES", "Полезные материалы", [bullets(rec["resources"])]),
         section("MISTAKES", "Частые ошибки на этом уровне", [bullets(rec["mistakes"], ROSE)]),

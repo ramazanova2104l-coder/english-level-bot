@@ -98,7 +98,7 @@ async def start(message: Message, state: FSMContext):
 
 @dp.message(Command("myid"))
 async def my_id(message: Message):
-    await message.answer(f"Ваш ID: <code>{message.from_user.id}</code>")
+    await message.answer(f"Твой ID: <code>{message.from_user.id}</code>")
 
 
 @dp.message(Command("leads"))
@@ -119,7 +119,7 @@ async def choose_goal(call: CallbackQuery, state: FSMContext):
     await call.message.edit_text(
         f"Цель: <b>{html.escape(goal)}</b>\n\nПоехали! 🚀\n\n"
         "✏️ <b>Часть 1. Грамматика и лексика</b>\n"
-        "Вопросы будут постепенно усложняться. Если не знаете ответ, нажмите «🤷 Не знаю»: "
+        "Вопросы будут постепенно усложняться. Если не знаешь ответ, нажми «🤷 Не знаю»: "
         "так результат будет точнее, чем если угадывать."
     )
     await send_question(call.message, state, new_message=True)
@@ -277,20 +277,20 @@ async def show_result(call: CallbackQuery, state: FSMContext):
     await state.set_state(Test.done)
 
     await call.message.answer(
-        f"🎉 Готово!\n\nВаш уровень: <b>{title}</b>\n"
+        f"🎉 Готово!\n\nТвой уровень: <b>{title}</b>\n"
         + "\n".join(f"• {name}: {lvl}" for name, lvl in parts.items())
         + f"\n\n{description}\n\n"
         f"Говорение {config.TEACHER_NAME} проверит на бесплатном пробном уроке "
-        "и составит план под вашу цель.\n\n"
+        "и составит план под твою цель.\n\n"
         + config.LESSON_TEXT.format(name=config.TEACHER_NAME),
         reply_markup=result_kb(),
     )
     pdf = build_pdf(level, title, description, call.from_user.first_name or "", track, data["goal"], parts)
     await call.message.answer_document(
-        BufferedInputFile(pdf, filename=f"Как учить английский — {level if level != 'A0' else 'A1'}.pdf"),
-        caption=(f"📄 Ваши рекомендации, как учить английский на уровне {title}.\n\n"
+        BufferedInputFile(pdf, filename=f"Как учить английский - {level if level != 'A0' else 'A1'}.pdf"),
+        caption=(f"📄 Твои рекомендации, как учить английский на уровне {title}.\n\n"
                  f"🎁 Промокод <b>{html.escape(config.PROMO_CODE)}</b>: {html.escape(config.PROMO_TEXT)}. "
-                 "Назовите его при записи."),
+                 "Назови его при записи."),
     )
     if config.NOTIFY_ON_RESULT:
         await notify_admin(
@@ -323,7 +323,7 @@ async def club(call: CallbackQuery):
 @dp.callback_query(F.data == "book")
 async def book(call: CallbackQuery, state: FSMContext):
     await state.set_state(Test.name)
-    await call.message.answer("Отлично! Запишу вас на бесплатный пробный урок. Как вас зовут?")
+    await call.message.answer("Отлично! Запишу тебя на бесплатный пробный урок. Как тебя зовут?")
     await call.answer()
 
 
@@ -332,8 +332,8 @@ async def got_name(message: Message, state: FSMContext):
     await state.update_data(name=message.text.strip()[:100])
     await state.set_state(Test.contact)
     await message.answer(
-        "Оставьте телефон (кнопка ниже) или напишите удобный контакт, "
-        f"и {config.TEACHER_NAME} свяжется с вами, чтобы подобрать время.",
+        "Оставь телефон (кнопка ниже) или напиши удобный контакт, "
+        f"и {config.TEACHER_NAME} свяжется с тобой, чтобы подобрать время.",
         reply_markup=ReplyKeyboardMarkup(
             keyboard=[[KeyboardButton(text="📱 Отправить номер", request_contact=True)]],
             resize_keyboard=True,
@@ -349,7 +349,7 @@ async def got_contact(message: Message, state: FSMContext):
     elif message.text:
         contact = message.text.strip()[:200]
     else:
-        await message.answer("Пожалуйста, отправьте номер кнопкой или напишите контакт текстом.")
+        await message.answer("Пожалуйста, отправь номер кнопкой или напиши контакт текстом.")
         return
 
     data = await state.get_data()
@@ -369,24 +369,24 @@ async def got_contact(message: Message, state: FSMContext):
         f"Имя: {html.escape(data.get('name', ''))}\n"
         f"Контакт: {html.escape(contact)}\n"
         f"Telegram: {user_label(user)}\n"
-        f"Уровень: {data.get('level', '—')}\n{data.get('score', '')}\n"
-        f"Цель: {html.escape(data.get('goal', '—'))}",
+        f"Уровень: {data.get('level', '-')}\n{data.get('score', '')}\n"
+        f"Цель: {html.escape(data.get('goal', '-'))}",
     )
     await state.set_state(Test.done)
     await message.answer(
-        f"Спасибо! 💛 Заявка отправлена, {config.TEACHER_NAME} скоро напишет вам.",
+        f"Спасибо! 💛 Заявка отправлена, {config.TEACHER_NAME} скоро напишет тебе.",
         reply_markup=ReplyKeyboardRemove(),
     )
 
 
 @dp.callback_query()
 async def stale_button(call: CallbackQuery):
-    await call.answer("Эта кнопка уже неактивна. Нажмите /start, чтобы начать заново.")
+    await call.answer("Эта кнопка уже неактивна. Нажми /start, чтобы начать заново.")
 
 
 @dp.message()
 async def fallback(message: Message):
-    await message.answer("Чтобы пройти тест уровня английского, нажмите /start")
+    await message.answer("Чтобы пройти тест уровня английского, нажми /start")
 
 
 async def main():

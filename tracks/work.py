@@ -1,12 +1,12 @@
 # Тест «Для работы»: офис, встречи, письма, переговоры.
-# Первый вариант ответа в каждом вопросе — правильный, бот перемешивает варианты сам.
+# Первый вариант ответа в каждом вопросе - правильный, бот перемешивает варианты сам.
 
 # ---- Часть 1. Грамматика и лексика ----
 GRAMMAR = {
     "A1": [
         {"text": "I ___ a manager in a big company.", "options": ["am", "is", "are", "be"]},
         {"text": "She ___ in an office in the city centre.", "options": ["works", "work", "working", "is work"]},
-        {"text": "What ___ you do? — I'm an engineer.", "options": ["do", "does", "are", "is"]},
+        {"text": "What ___ you do? - I'm an engineer.", "options": ["do", "does", "are", "is"]},
         {"text": "Our meeting is ___ Monday.", "options": ["on", "in", "at", "to"]},
         {"text": "There ___ ten people in my team.", "options": ["are", "is", "be", "am"]},
     ],
@@ -59,8 +59,8 @@ TASKS = {
     "listen_easy": {
         "kind": "listening",
         "voice": "am_michael", "speed": 0.88,
-        "intro": "🎧 <b>Аудирование, задание 1</b>\n\nПослушайте голосовое сообщение от партнёра "
-                 "и ответьте на 4 вопроса. Можно слушать несколько раз.",
+        "intro": "🎧 <b>Аудирование, задание 1</b>\n\nПослушай голосовое сообщение от партнёра "
+                 "и ответь на 4 вопроса. Можно слушать несколько раз.",
         "script": (
             "Hello, this is David Green from Northstar Logistics. I'm calling about our meeting on Tuesday. "
             "I'm afraid I can't make it in the morning, because I have to visit a customer. "
@@ -83,7 +83,7 @@ TASKS = {
         "kind": "listening",
         "voice": "af_heart", "speed": 1.0,
         "intro": "🎧 <b>Аудирование, задание 2</b>\n\nЭто задание сложнее: руководитель делится опытом "
-                 "в обычном темпе. Ответьте на 4 вопроса.",
+                 "в обычном темпе. Ответь на 4 вопроса.",
         "script": (
             "One of the biggest mistakes I see new managers make is assuming that their job is to have all the "
             "answers. It isn't. In fact, the moment you start solving every problem yourself, your team stops "
@@ -109,7 +109,7 @@ TASKS = {
     },
     "read_easy": {
         "kind": "reading",
-        "intro": "📖 <b>Чтение, задание 1</b>\n\nПрочитайте рабочее письмо и ответьте на 4 вопроса.",
+        "intro": "📖 <b>Чтение, задание 1</b>\n\nПрочитай рабочее письмо и ответь на 4 вопроса.",
         "text": (
             "Hi team,\n\n"
             "Just a quick reminder about next week. On Monday we have a visit from our new clients from Germany, so "
@@ -135,7 +135,7 @@ TASKS = {
     },
     "read_hard": {
         "kind": "reading",
-        "intro": "📖 <b>Чтение, задание 2</b>\n\nЭтот текст сложнее. Прочитайте статью и ответьте на 4 вопроса.",
+        "intro": "📖 <b>Чтение, задание 2</b>\n\nЭтот текст сложнее. Прочитай статью и ответь на 4 вопроса.",
         "text": (
             "<b>Is the Office Dead?</b>\n\n"
             "When the pandemic forced millions of employees to work from home, many predicted that the traditional "
@@ -167,12 +167,12 @@ TASKS = {
 
 # ---- Блок в PDF ----
 RECS = {
-    "title": "Ваша цель: английский для работы",
+    "title": "Твоя цель: английский для работы",
     "tips": [
-        "Начните с того, что нужно каждый день: письма, созвоны, рассказ о своей работе и проектах.",
-        "Соберите шаблоны деловых фраз: договориться о встрече, перенести её, вежливо не согласиться, подвести итог.",
-        "Учите лексику своей сферы: 50–100 профессиональных слов дадут больше, чем общий словарь.",
-        "Тренируйте small talk: короткий разговор перед встречей сильно влияет на впечатление о вас.",
+        "Начни с того, что нужно каждый день: письма, созвоны, рассказ о своей работе и проектах.",
+        "Собери шаблоны деловых фраз: договориться о встрече, перенести её, вежливо не согласиться, подвести итог.",
+        "Учи лексику своей сферы: 50-100 профессиональных слов дадут больше, чем общий словарь.",
+        "Тренируй small talk: короткий разговор перед встречей сильно влияет на впечатление о тебе.",
     ],
     "resources": [
         "BBC Learning English: «English at Work», «Business English».",
