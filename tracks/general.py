@@ -114,30 +114,30 @@ TASKS = {
     },
     "read_easy": {
         "kind": "reading",
-        "intro": "📖 <b>Чтение, задание 1</b>\n\nПрочитайте письмо и ответьте на 4 вопроса.",
+        "intro": "📖 <b>Чтение, задание 1</b>\n\nПрочитайте короткую статью и ответьте на 4 вопроса.",
         "text": (
-            "Hi Anna,\n\n"
-            "Thanks for your email! I'm having a great time in Edinburgh. The city is beautiful, but the weather "
-            "is terrible: it has rained every day since I arrived. My host family is very kind. Mrs Brown cooks "
-            "dinner every evening, and her son Jack, who is twelve, helps me with my homework. My English classes "
-            "start at nine and finish at one, so I have free time in the afternoons. Yesterday I visited the "
-            "castle with two students from my class. Next weekend we're planning to go to the mountains, but "
-            "only if the weather gets better!\n\n"
-            "Write soon,\nLucia"
+            "<b>Little Free Libraries</b>\n\n"
+            "In many towns around the world, you can find small wooden boxes standing in front of people's houses. "
+            "They look like birdhouses, but they are full of books. These are called Little Free Libraries. The "
+            "idea is simple: you take a book you want to read and leave a book you have already finished. Nobody "
+            "pays any money, and there are no rules about when you have to bring a book back.\n\n"
+            "The first one was built in the USA in 2009 by a man called Todd Bol, in memory of his mother, a "
+            "teacher who loved reading. Today there are more than 150,000 of them in over a hundred countries. "
+            "Many owners say that the boxes have helped them get to know their neighbours."
         ),
         "questions": [
-            {"text": "Where is Lucia staying?",
-             "options": ["With a host family", "In a hotel", "With her friend Anna", "In a student flat"]},
-            {"text": "What has the weather been like?",
-             "options": ["It has rained every day", "Sunny and warm",
-                         "It rained on the first day only", "It has snowed"]},
-            {"text": "Who helps Lucia with her homework?",
-             "options": ["Jack", "Mrs Brown", "Anna", "Her teacher"]},
-            {"text": "What will happen next weekend?",
-             "options": ["They will go to the mountains if the weather improves",
-                         "They will definitely go to the mountains",
-                         "They will visit the castle again",
-                         "They will stay at home because of the rain"]},
+            {"text": "What are Little Free Libraries?",
+             "options": ["Small boxes of books outside people's houses", "Houses for birds",
+                         "Big libraries in town centres", "Second-hand bookshops"]},
+            {"text": "What should you do when you take a book?",
+             "options": ["Leave another book", "Pay a little money",
+                         "Bring it back within a week", "Write your name in it"]},
+            {"text": "Why did Todd Bol build the first one?",
+             "options": ["In memory of his mother", "To sell his old books",
+                         "For the school where he worked", "To make his house look nicer"]},
+            {"text": "What do many owners say about the boxes?",
+             "options": ["They have helped them meet their neighbours", "They earn money from them",
+                         "People often steal the books", "They are expensive to build"]},
         ],
     },
     "read_hard": {

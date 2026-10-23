@@ -1,9 +1,10 @@
 # Тесты под разные цели ученика. В каждом файле: GRAMMAR, TASKS и RECS.
-from . import exam, general, kids, travel, work
+from . import ege, general, kids, oge, travel, work
 
 TRACKS = {
     "general": general,
-    "exam": exam,
+    "oge": oge,
+    "ege": ege,
     "travel": travel,
     "work": work,
     "kids": kids,

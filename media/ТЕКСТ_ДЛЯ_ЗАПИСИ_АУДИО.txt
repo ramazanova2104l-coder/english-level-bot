@@ -8,14 +8,32 @@ Hi Sam, it's Maria. I'm calling about Saturday. I'm really sorry, but I can't me
 ===== general_listen_hard.mp3 (Разговорный английский / Просто интересно) =====
 A lot of people assume that the key to learning a language is talent. You've either got it or you haven't. But the research really doesn't back that up. What seems to matter far more is how consistently you're exposed to the language, and, crucially, whether you're actually made to produce it. You can listen to podcasts for years and still freeze the moment someone asks you a question. That's not because you don't know the words. It's because retrieving them under pressure is a separate skill, and it only develops through practice. So if I had to give one piece of advice, it wouldn't be 'study more grammar'. It would be: find situations where you have no choice but to speak, even if you feel a bit uncomfortable at first.
 
-===== exam_listen_easy.mp3 (ОГЭ / ЕГЭ) =====
+===== oge_listen_easy.mp3 (ОГЭ) =====
 Good morning, everyone. This is an announcement for all students in years eight and nine. This Friday there will be no lessons after lunch, because the school is holding its annual sports day. Please bring your sports clothes and a bottle of water. The competitions will start at one o'clock at the main stadium. If it rains, they will take place in the gym instead. Students who want to take part in the running races should give their names to Mr Ivanov before Wednesday. Parents are welcome to come and watch. Thank you.
 
-===== exam_listen_hard.mp3 (ОГЭ / ЕГЭ) =====
+===== oge_listen_hard.mp3 (ОГЭ) =====
 Interviewer: So, Anna, you got one of the highest scores in the country in English. What was your secret?
 Anna: Honestly, there wasn't really a secret. I'd say the most important thing was that I started preparing early, in tenth grade, rather than leaving it until the last few months. And I didn't just do practice tests. I actually think a lot of students overdo those. I read books and watched series in English because I enjoyed it, and that helped my vocabulary far more than memorising word lists.
 Interviewer: Was there any part of the exam you found particularly difficult?
 Anna: The essay, definitely. At first my essays were full of ideas but badly organised. My teacher kept telling me that examiners care about structure just as much as content, and once I started planning each paragraph before writing, my marks went up quite quickly.
+
+===== ege_listen_easy.mp3 (ЕГЭ) =====
+Tom: Hi Kate! I heard you've decided to take a gap year before university. Is that true?
+Kate: Yes, it is. My parents weren't very keen on the idea at first, but I managed to convince them.
+Tom: So what are you planning to do?
+Kate: I'm going to spend six months volunteering at a wildlife centre in Costa Rica. I'll be looking after injured animals, mostly birds and monkeys.
+Tom: Wow, that sounds amazing. Isn't it expensive, though?
+Kate: The flights are, but the centre provides food and accommodation for volunteers, so it's not as bad as you'd think. I've been working at a café since September to save up.
+Tom: And what about after that?
+Kate: I'll come back in the spring and start studying biology in September. I think the experience will help me decide which area of biology I want to focus on.
+
+===== ege_listen_hard.mp3 (ЕГЭ) =====
+Interviewer: Today I'm talking to Daniel Hart, a professional translator who works with eight languages. Daniel, was it always your plan to become a translator?
+Daniel: Not at all. At school I was actually much better at maths, and everyone assumed I'd become an engineer. Languages were something I did for fun, mainly because I wanted to understand the songs I was listening to. It was only when I spent a year in Spain as a student that I realised I could make a living from it.
+Interviewer: Many people believe that machine translation will soon make your job unnecessary. Do you worry about that?
+Daniel: I'd be lying if I said it never crossed my mind. But in my experience, machines are very good at translating the words and surprisingly bad at translating the meaning. A joke, a bit of irony, a phrase that sounds polite in one culture and rude in another: that's still where a human makes the difference. What has changed is that I now spend less time translating from scratch and more time editing and checking.
+Interviewer: What advice would you give to young people who want to work with languages?
+Daniel: Don't just study the language, study the people who speak it. Read their newspapers, watch their comedies, find out what makes them laugh and what makes them angry. Grammar can be learned from a book. That kind of understanding can't.
 
 ===== travel_listen_easy.mp3 (Для путешествий) =====
 Attention, please. This is an announcement for passengers on flight B A two seven four to London. Unfortunately, the flight has been delayed by forty-five minutes because of bad weather. The new departure time is eleven fifteen. Boarding will now take place at gate twelve, not gate eight. Passengers with small children may board first. We apologise for any inconvenience. Thank you.
