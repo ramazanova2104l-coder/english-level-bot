@@ -15,6 +15,7 @@ from reportlab.platypus import (KeepTogether, ListFlowable, ListItem, Paragraph,
 import config
 from questions import ORDER
 from recommendations import COMMON_ROUTINE_NOTE, RECOMMENDATIONS
+from vocabulary import VOCAB
 from tracks import TRACKS
 
 # Фирменный стиль @ramazanova_eng (как в визуальной системе публикаций)
@@ -135,6 +136,31 @@ def skills_row(parts: dict) -> Table:
     return t
 
 
+vocab_en = ParagraphStyle("vocab_en", parent=text, fontName="Montserrat-SemiBold")
+vocab_ru = ParagraphStyle("vocab_ru", parent=text, textColor=CHOCOLATE)
+
+
+def vocab_section(track: str, level_key: str) -> KeepTogether:
+    """Страница с полезной лексикой под цель: базовый набор для A0-A2, продвинутый для B1+."""
+    data = VOCAB.get(track, VOCAB["general"])
+    advanced = ORDER.index(level_key) >= ORDER.index("B1")
+    words = data["advanced" if advanced else "basic"]
+    inner = CONTENT_W - 26
+    rows = [[Paragraph(escape(en), vocab_en), Paragraph(escape(ru), vocab_ru)] for en, ru in words]
+    t = Table(rows, colWidths=[inner * 0.52, inner * 0.48])
+    style = [("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+             ("TOPPADDING", (0, 0), (-1, -1), 5), ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
+             ("LEFTPADDING", (0, 0), (-1, -1), 8), ("RIGHTPADDING", (0, 0), (-1, -1), 8)]
+    for i in range(0, len(rows), 2):
+        style.append(("BACKGROUND", (0, i), (-1, i), CREAM))
+    t.setStyle(TableStyle(style))
+    level_note = "фразы для уровня B1 и выше" if advanced else "фразы для уровней A1-A2"
+    return KeepTogether([card([pill("USEFUL VOCABULARY"), Spacer(1, 6), Paragraph(escape(data["title"]), script_title),
+                               Spacer(1, 2), Paragraph(level_note + ". Повторяй их вслух и используй в своей речи.", note),
+                               Spacer(1, 8), t], padding=13),
+                         Spacer(1, 7)])
+
+
 def goal_body(track: str, goal: str, level_key: str) -> list:
     module = TRACKS[track]
     recs = module.RECS
@@ -189,6 +215,7 @@ def build_pdf(level_key: str, level_title: str, description: str, user_name: str
                                                              Paragraph(escape(COMMON_ROUTINE_NOTE), note)]),
         section("RESOURCES", "Полезные материалы", [bullets(rec["resources"])]),
         section("MISTAKES", "Частые ошибки на этом уровне", [bullets(rec["mistakes"], ROSE)]),
+        vocab_section(track, level_key),
         KeepTogether([card([
             Paragraph(f"Первый урок с {escape(config.TEACHER_NAME_INSTR)} бесплатно", cta_title),
             Spacer(1, 6),

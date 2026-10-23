@@ -36,6 +36,7 @@ from formats import (BUY_NAMES, BUY_TEXT, PRICES, QUIZ, QUIZ_CANDIDATES, QUIZ_RE
                      QUIZ_WEIGHTS, SECTIONS)
 from pdf_report import build_pdf
 from price_image import price_png
+from question_ru import GRAMMAR_HINT, QUESTION_RU, TFN_HINT
 from questions import (LEVELS, PASS_SCORE, PER_LEVEL, RESULTS, final_level, grammar_level, skill_level,
                        use_hard_tasks)
 from tracks import TRACKS
@@ -196,6 +197,14 @@ async def send_question(message: Message, state: FSMContext, new_message=False):
         kind = TRACKS[track].TASKS[block[1]]["kind"]
         label = ("🎧 Аудирование" if kind == "listening" else "📖 Чтение") + f" · вопрос {qi + 1} из {len(questions)}"
     text = f"{label}\n\n<b>{html.escape(q['text'])}</b>"
+    if block[0] == "g":
+        hint = GRAMMAR_HINT
+    else:
+        hint = QUESTION_RU.get(q["text"], "")
+        if q["options"][:3] == ["True", "False", "Not stated"]:
+            hint = (hint + "\n" if hint else "") + TFN_HINT
+    if hint:
+        text += f"\n<i>{html.escape(hint)}</i>"
     rows = [(q["options"][o], f"a:{bi}:{qi}:{o}") for o in order] + [(DONT_KNOW, f"a:{bi}:{qi}:x")]
     if new_message:
         await message.answer(text, reply_markup=kb(rows))
