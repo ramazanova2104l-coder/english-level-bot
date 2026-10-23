@@ -5,8 +5,9 @@
 #    Если уровень не засчитан, более сложные вопросы не показываются.
 # 2. Аудирование и чтение: базовое задание (A2-B1). Сложное задание (B2-C1) дают, только если
 #    базовое выполнено хорошо (3-4 из 4) и грамматика не ниже B1.
-# 3. Итог: средний из трёх результатов (грамматика, аудирование, чтение), чтобы одна удачная
-#    часть не завышала уровень. На каждый вопрос есть кнопка «Не знаю», чтобы не угадывать.
+# 3. Итог: средний из трёх результатов (грамматика, аудирование, чтение), но не выше грамматики.
+#    C1 ставится только при безошибочной грамматике B2 и C1 и безошибочных сложных текстах.
+#    На каждый вопрос есть кнопка «Не знаю», чтобы не угадывать.
 
 LEVELS = ["A1", "A2", "B1", "B2", "C1"]
 ORDER = ["A0"] + LEVELS  # A0 - ниже A1
@@ -57,16 +58,29 @@ def hard_task_allowed(easy_score: int, grammar: str) -> bool:
 
 
 def skill_level(easy_score: int, hard_score=None) -> str:
-    """Уровень аудирования или чтения по базовому и (если было) сложному заданию."""
+    """Уровень аудирования или чтения по базовому и (если было) сложному заданию.
+    По одному тексту из 4 вопросов C1 не определить, поэтому максимум здесь B2,
+    и только если сложное задание выполнено без ошибок."""
     base = {0: "A0", 1: "A1", 2: "A2", 3: "A2", 4: "B1"}[easy_score]
-    if hard_score is None or hard_score <= 1:
+    if hard_score is None or hard_score <= 2:
         return base
-    if hard_score == 2:
-        return max(base, "B1", key=ORDER.index)
-    return "B2" if hard_score == 3 else "C1"
+    return "B1" if hard_score == 3 else "B2"
 
 
-def final_level(parts: list) -> str:
-    """Итог по частям теста: при трёх частях - средний результат, при двух - меньший."""
+def final_level(parts: list, grammar_scores: dict = None) -> str:
+    """Итог по частям теста.
+    1. Средний результат из трёх частей (при двух частях - меньший).
+    2. Итог не выше грамматики: грамматика проверена 25 вопросами и надёжнее коротких текстов.
+    3. C1 только в исключительном случае: C1 по грамматике без единой ошибки (5 из 5),
+       B2 тоже без ошибок, и оба текста на B2. Иначе максимум B2."""
     ranked = sorted(parts, key=ORDER.index)
-    return ranked[1] if len(ranked) == 3 else ranked[0]
+    level = ranked[1] if len(ranked) == 3 else ranked[0]
+    grammar = parts[0]
+    if ORDER.index(level) > ORDER.index(grammar):
+        level = grammar
+    scores = grammar_scores or {}
+    c1 = (grammar == "C1" and scores.get("C1", 0) == 5 and scores.get("B2", 0) == 5
+          and len(parts) == 3 and all(p == "B2" for p in parts[1:]))
+    if level == "C1" or c1:
+        level = "C1" if c1 else "B2"
+    return level

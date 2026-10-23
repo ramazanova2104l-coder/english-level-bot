@@ -281,7 +281,7 @@ async def show_result(call: CallbackQuery, state: FSMContext):
     if "t:listen_easy" in done:
         parts["Аудирование"] = skill_result(scores, "listen")
     parts["Чтение"] = skill_result(scores, "read")
-    level = final_level(list(parts.values()))
+    level = final_level(list(parts.values()), grammar_scores(scores))
     title, description = RESULTS[level]
     breakdown = " · ".join(f"{name}: {lvl}" for name, lvl in parts.items())
     code = title.split("(")[-1].rstrip(")")
