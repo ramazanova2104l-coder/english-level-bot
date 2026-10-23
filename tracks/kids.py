@@ -52,7 +52,7 @@ TASKS = {
     "listen_easy": {
         "kind": "listening",
         "voice": "am_puck", "speed": 0.85,
-        "intro": "🎧 <b>Аудирование, задание 1</b>\n\nПослушай рассказ мальчика о его собаке и ответь на 4 вопроса. "
+        "intro": "🎧 <b>Аудирование</b>\n\nПослушай рассказ мальчика о его собаке и ответь на 4 вопроса. "
                  "Можно слушать несколько раз.",
         "script": (
             "Hi! My name's Ben, and I'm eleven. I want to tell you about my dog, Max. "
@@ -74,7 +74,7 @@ TASKS = {
     "listen_hard": {
         "kind": "listening",
         "voice": "af_heart", "speed": 1.0,
-        "intro": "🎧 <b>Аудирование, задание 2</b>\n\nЭто задание сложнее: школьница рассказывает о своём "
+        "intro": "🎧 <b>Аудирование</b>\n\nШкольница рассказывает о своём "
                  "научном проекте. Ответь на 4 вопроса.",
         "script": (
             "For our science project this year, my friend Lily and I decided to find out whether plants grow "
@@ -102,14 +102,13 @@ TASKS = {
     },
     "read_easy": {
         "kind": "reading",
-        "intro": "📖 <b>Чтение, задание 1</b>\n\nПрочитай текст и ответь на 4 вопроса.",
+        "intro": "📖 <b>Чтение</b>\n\nПрочитай текст и ответь на 4 вопроса.",
         "text": (
-            "<b>My Best Friend</b>\n\n"
-            "My best friend is called Sofia. We are in the same class at school, and we sit together. Sofia has long "
-            "dark hair and green eyes. She is very funny and always makes me laugh. After school we often go to the "
-            "park or play computer games at her house. Sofia loves animals, and she has two rabbits and a parrot. "
-            "Her parrot can say \"hello\" and \"good night\"! At the weekend we sometimes go swimming together. "
-            "I'm happy that Sofia is my friend."
+            "<b>My Best Friend</b>\n"
+            "\n"
+            "My best friend is called Sofia. We are in the same class, and we sit together. Sofia has long dark "
+            "hair and green eyes. She is very funny. Sofia loves animals, and she has two rabbits and a parrot. "
+            "Her parrot can say \"hello\" and \"good night\"! At the weekend we sometimes go swimming together."
         ),
         "questions": [
             {"text": "Where do the friends sit at school?",
@@ -125,17 +124,16 @@ TASKS = {
     },
     "read_hard": {
         "kind": "reading",
-        "intro": "📖 <b>Чтение, задание 2</b>\n\nЭтот текст сложнее. Прочитай историю и ответь на 4 вопроса.",
+        "intro": "📖 <b>Чтение</b>\n\nПрочитай историю и ответь на 4 вопроса.",
         "text": (
-            "<b>The Boy Who Harnessed the Wind</b>\n\n"
-            "When William Kamkwamba was fourteen, a terrible drought hit his village in Malawi. His family could no "
-            "longer afford to pay for school, so William had to leave. Instead of giving up on learning, he started "
-            "visiting the village library, where he found an old science book about energy. Although his English was "
-            "limited, he studied the diagrams carefully and decided to build a windmill to produce electricity.\n\n"
-            "Using old bicycle parts, plastic pipes and wood, he eventually built a working windmill that powered a "
-            "few lights in his home. At first, some neighbours laughed at him and thought he had gone mad. Later, "
-            "when they saw what he had achieved, many of them came to charge their phones at his house. William's "
-            "story became famous around the world, and he was later able to continue his education."
+            "<b>The Boy Who Harnessed the Wind</b>\n"
+            "\n"
+            "When William Kamkwamba was fourteen, a drought hit his village in Malawi, and his family could no "
+            "longer pay for school. Instead of giving up, William started visiting the village library, where he "
+            "found an old science book about energy. Using old bicycle parts and wood, he built a windmill that "
+            "powered the lights in his home. At first, some neighbours laughed at him. Later, many of them came "
+            "to charge their phones at his house. William's story became famous, and he was able to continue his "
+            "education."
         ),
         "questions": [
             {"text": "Why did William have to leave school?",

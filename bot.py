@@ -36,8 +36,8 @@ from formats import (BUY_NAMES, BUY_TEXT, PRICES, QUIZ, QUIZ_CANDIDATES, QUIZ_RE
                      QUIZ_WEIGHTS, SECTIONS)
 from pdf_report import build_pdf
 from price_image import price_png
-from questions import (LEVELS, PASS_SCORE, RESULTS, final_level, grammar_level, hard_task_allowed,
-                       skill_level)
+from questions import (LEVELS, PASS_SCORE, PER_LEVEL, RESULTS, final_level, grammar_level, skill_level,
+                       use_hard_tasks)
 from tracks import TRACKS
 
 LEADS_FILE = Path(__file__).with_name("leads.csv")
@@ -154,7 +154,7 @@ def audio_file(track: str, task: str):
 def block_questions(track: str, block):
     kind, key = block
     module = TRACKS[track]
-    return module.GRAMMAR[key] if kind == "g" else module.TASKS[key]["questions"]
+    return module.GRAMMAR[key][:PER_LEVEL] if kind == "g" else module.TASKS[key]["questions"]
 
 
 def is_correct(q, option: str) -> bool:
@@ -190,7 +190,7 @@ async def send_question(message: Message, state: FSMContext, new_message=False):
     if not q.get("fixed"):
         random.shuffle(order)
     if block[0] == "g":
-        number = sum(1 for b in blocks[:bi] if b[0] == "g") * 5 + qi + 1
+        number = sum(1 for b in blocks[:bi] if b[0] == "g") * PER_LEVEL + qi + 1
         label = f"✏️ Грамматика и лексика · вопрос {number}"
     else:
         kind = TRACKS[track].TASKS[block[1]]["kind"]
@@ -207,20 +207,15 @@ def plan_next_blocks(data: dict) -> list:
     """После каждого блока решаем, что показывать дальше (тест подстраивается под ученика)."""
     track, blocks, bi, scores = data["track"], data["blocks"], data["bi"], data["scores"]
     kind, key = blocks[bi]
-    score = scores.get(f"{kind}:{key}", 0)
     extra = []
     if kind == "g":
-        if score >= PASS_SCORE and key != LEVELS[-1]:
+        if scores.get(f"g:{key}", 0) >= PASS_SCORE and key != LEVELS[-1]:
             extra = [["g", LEVELS[LEVELS.index(key) + 1]]]
-        else:  # грамматика закончена, дальше аудирование и чтение
-            if audio_file(track, "listen_easy"):
-                extra.append(["t", "listen_easy"])
-            extra.append(["t", "read_easy"])
-    elif key.endswith("_easy"):
-        hard = key.replace("_easy", "_hard")
-        grammar = grammar_level(grammar_scores(scores))
-        if hard_task_allowed(score, grammar) and (hard.startswith("read") or audio_file(track, hard)):
-            extra = [["t", hard]]
+        else:  # грамматика закончена: одно аудио и один текст под уровень грамматики
+            level = "hard" if use_hard_tasks(grammar_level(grammar_scores(scores))) else "easy"
+            if audio_file(track, f"listen_{level}"):
+                extra.append(["t", f"listen_{level}"])
+            extra.append(["t", f"read_{level}"])
     return blocks[:bi + 1] + extra + blocks[bi + 1:]
 
 
@@ -264,9 +259,10 @@ async def answer(call: CallbackQuery, state: FSMContext):
 
 
 def skill_result(scores: dict, part: str):
-    if f"t:{part}_easy" not in scores:
-        return None
-    return skill_level(scores[f"t:{part}_easy"], scores.get(f"t:{part}_hard"))
+    for level in ("easy", "hard"):
+        if f"t:{part}_{level}" in scores:
+            return skill_level(scores[f"t:{part}_{level}"], level == "hard")
+    return None
 
 
 async def show_result(call: CallbackQuery, state: FSMContext):
@@ -278,10 +274,12 @@ async def show_result(call: CallbackQuery, state: FSMContext):
 
     grammar = grammar_level(grammar_scores(scores))
     parts = {"Грамматика и лексика": grammar}
-    if "t:listen_easy" in done:
+    if "t:listen_easy" in done or "t:listen_hard" in done:
         parts["Аудирование"] = skill_result(scores, "listen")
     parts["Чтение"] = skill_result(scores, "read")
-    level = final_level(list(parts.values()), grammar_scores(scores))
+    tasks = [v for k, v in scores.items() if k.startswith("t:")]
+    perfect = all(k.endswith("_hard") for k in scores if k.startswith("t:")) and all(v == 4 for v in tasks)
+    level = final_level(list(parts.values()), grammar_scores(scores), perfect)
     title, description = RESULTS[level]
     breakdown = " · ".join(f"{name}: {lvl}" for name, lvl in parts.items())
     code = title.split("(")[-1].rstrip(")")
@@ -402,7 +400,7 @@ async def back_to_results(call: CallbackQuery, state: FSMContext):
     if text:
         await show_text(call, text, result_kb())
     else:
-        await show_text(call, "Результаты теста не сохранились. Пройди тест ещё раз, это займёт 10-15 минут.",
+        await show_text(call, "Результаты теста не сохранились. Пройди тест ещё раз, это займёт 8-10 минут.",
                         kb([("🔄 Пройти тест", "restart")]))
     await call.answer()
 

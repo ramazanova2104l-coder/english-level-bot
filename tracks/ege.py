@@ -63,7 +63,7 @@ TASKS = {
         "kind": "listening",
         # Диалог: каждая строка начинается с имени, у каждого свой голос
         "voices": {"Tom": "am_michael", "Kate": "af_heart"}, "speed": 0.95,
-        "intro": "🎧 <b>Аудирование, задание 1</b> (формат ЕГЭ, задание 2)\n\nПослушай диалог. "
+        "intro": "🎧 <b>Аудирование</b> (формат ЕГЭ, задание 2)\n\nПослушай диалог. "
                  "Для каждого утверждения выбери: <b>True</b> (верно), <b>False</b> (неверно) "
                  "или <b>Not stated</b> (в разговоре не сказано).",
         "script": (
@@ -90,7 +90,7 @@ TASKS = {
     "listen_hard": {
         "kind": "listening",
         "voices": {"Interviewer": "af_bella", "Daniel": "am_adam"}, "speed": 1.0,
-        "intro": "🎧 <b>Аудирование, задание 2</b> (формат ЕГЭ, задания 3-9)\n\nИнтервью с переводчиком. "
+        "intro": "🎧 <b>Аудирование</b> (формат ЕГЭ, задания 3-9)\n\nИнтервью с переводчиком. "
                  "Выбери правильный ответ на каждый из 4 вопросов.",
         "script": (
             "Interviewer: Today I'm talking to Daniel Hart, a professional translator who works with eight languages. "
@@ -130,20 +130,22 @@ TASKS = {
     },
     "read_easy": {
         "kind": "reading",
-        "intro": "📖 <b>Чтение, задание 1</b> (формат ЕГЭ, задание 10)\n\nПрочитай текст и подбери "
+        "intro": "📖 <b>Чтение</b> (формат ЕГЭ, задание 10)\n\nПрочитай текст и подбери "
                  "к каждому абзацу (A-D) подходящий заголовок. Один заголовок лишний.",
         "text": (
-            "<b>Teenagers and Part-time Jobs</b>\n\n"
+            "<b>Teenagers and Part-time Jobs</b>\n"
+            "\n"
             "<b>A.</b> Many teenagers dream of having their own money, and a part-time job seems the obvious "
-            "solution. Working in a café or delivering newspapers not only brings in some cash but also shows young "
-            "people how hard it can be to earn it.\n\n"
-            "<b>B.</b> However, experts warn that too much work can harm school results. Students who work more than "
-            "fifteen hours a week often feel tired in class and have less time for homework and revision.\n\n"
-            "<b>C.</b> Some schools have found a creative way to give students work experience without the long "
-            "hours. They organise one-week placements in local companies, where teenagers can see what a real "
-            "working day looks like.\n\n"
-            "<b>D.</b> For many young people, the biggest benefit of a job is not the money at all. They say that "
-            "dealing with customers and colleagues has made them more confident and better at solving problems."
+            "solution. It also shows young people how hard money is to earn.\n"
+            "\n"
+            "<b>B.</b> However, experts warn that too much work can harm school results. Students who work more "
+            "than fifteen hours a week often feel tired in class.\n"
+            "\n"
+            "<b>C.</b> Some schools give students work experience without the long hours. They organise one-week "
+            "placements in local companies, where teenagers see a real working day.\n"
+            "\n"
+            "<b>D.</b> For many young people, the biggest benefit of a job is not the money. They say that "
+            "dealing with customers has made them more confident."
         ),
         "questions": [
             {"text": "Which heading fits paragraph A?", "options": HEADINGS, "fixed": True, "answer": 0},
@@ -154,21 +156,18 @@ TASKS = {
     },
     "read_hard": {
         "kind": "reading",
-        "intro": "📖 <b>Чтение, задание 2</b> (формат ЕГЭ, задания 12-18)\n\nПрочитай статью "
+        "intro": "📖 <b>Чтение</b> (формат ЕГЭ, задания 12-18)\n\nПрочитай статью "
                  "и выбери правильный ответ на каждый из 4 вопросов.",
         "text": (
-            "<b>In Praise of Boredom</b>\n\n"
-            "For most of us, boredom is something to be avoided at all costs. The moment we find ourselves waiting "
-            "in a queue or sitting on a train, we reach for our phones. Yet a number of psychologists now argue that "
-            "this constant escape from boredom may come at a price. In one frequently cited experiment, participants "
-            "who had first been given a deliberately dull task, copying numbers from a telephone directory, went on "
-            "to produce noticeably more creative ideas than those who had not. The researchers suggest that when the "
-            "mind is left unoccupied, it begins to wander, and it is precisely in this wandering that unexpected "
-            "connections are made.\n\n"
-            "This is not to say that boredom is always beneficial. Chronic boredom, the kind experienced by people "
-            "stuck in unfulfilling jobs, has been linked to stress and even depression. The point, rather, is that "
-            "short periods of having nothing to do are not a problem to be solved, but an opportunity that we have "
-            "largely forgotten how to use."
+            "<b>In Praise of Boredom</b>\n"
+            "\n"
+            "The moment we find ourselves waiting in a queue, most of us reach for our phones. Yet some "
+            "psychologists argue that this constant escape from boredom comes at a price. In one experiment, "
+            "participants who had first been given a deliberately dull task went on to produce noticeably more "
+            "creative ideas than those who had not. When the mind is left unoccupied, it wanders, and it is in "
+            "this wandering that unexpected connections are made. Chronic boredom, the kind experienced in "
+            "unfulfilling jobs, has been linked to stress. Short periods of having nothing to do, however, are an"
+            " opportunity rather than a problem."
         ),
         "questions": [
             {"text": "What did the experiment show?",
@@ -180,7 +179,7 @@ TASKS = {
                          "Boredom reduces stress", "People want to impress the researchers"]},
             {"text": "The word \"chronic\" in the text is closest in meaning to...",
              "options": ["long-lasting", "sudden", "mild", "rare"]},
-            {"text": "What is the writer's main point in the last paragraph?",
+            {"text": "What is the writer's main point?",
              "options": ["Short periods of boredom can be valuable", "Boredom is always harmful",
                          "People should leave boring jobs", "Phones are the main cause of depression"]},
         ],

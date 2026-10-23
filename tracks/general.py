@@ -58,7 +58,7 @@ TASKS = {
     "listen_easy": {
         "kind": "listening",
         "voice": "af_bella", "speed": 0.85,
-        "intro": "🎧 <b>Аудирование, задание 1</b>\n\nПослушай голосовое сообщение и ответь на 4 вопроса. "
+        "intro": "🎧 <b>Аудирование</b>\n\nПослушай голосовое сообщение и ответь на 4 вопроса. "
                  "Можно слушать несколько раз.",
         "script": (
             "Hi Sam, it's Maria. I'm calling about Saturday. I'm really sorry, but I can't meet you at six, "
@@ -83,7 +83,7 @@ TASKS = {
     "listen_hard": {
         "kind": "listening",
         "voice": "af_heart", "speed": 1.0,
-        "intro": "🎧 <b>Аудирование, задание 2</b>\n\nЭто задание сложнее: отрывок из подкаста в обычном темпе. "
+        "intro": "🎧 <b>Аудирование</b>\n\nОтрывок из подкаста в обычном темпе. "
                  "Ответь на 4 вопроса.",
         "script": (
             "A lot of people assume that the key to learning a language is talent. You've either got it or you "
@@ -114,16 +114,14 @@ TASKS = {
     },
     "read_easy": {
         "kind": "reading",
-        "intro": "📖 <b>Чтение, задание 1</b>\n\nПрочитай короткую статью и ответь на 4 вопроса.",
+        "intro": "📖 <b>Чтение</b>\n\nПрочитай короткую статью и ответь на 4 вопроса.",
         "text": (
-            "<b>Little Free Libraries</b>\n\n"
-            "In many towns around the world, you can find small wooden boxes standing in front of people's houses. "
-            "They look like birdhouses, but they are full of books. These are called Little Free Libraries. The "
-            "idea is simple: you take a book you want to read and leave a book you have already finished. Nobody "
-            "pays any money, and there are no rules about when you have to bring a book back.\n\n"
-            "The first one was built in the USA in 2009 by a man called Todd Bol, in memory of his mother, a "
-            "teacher who loved reading. Today there are more than 150,000 of them in over a hundred countries. "
-            "Many owners say that the boxes have helped them get to know their neighbours."
+            "<b>Little Free Libraries</b>\n"
+            "\n"
+            "In many towns you can find small wooden boxes full of books in front of people's houses. These are "
+            "Little Free Libraries. You take a book you want to read and leave a book you have finished. Nobody "
+            "pays any money. The first one was built in the USA in 2009 by Todd Bol, in memory of his mother, a "
+            "teacher who loved reading. Many owners say the boxes have helped them get to know their neighbours."
         ),
         "questions": [
             {"text": "What are Little Free Libraries?",
@@ -142,18 +140,16 @@ TASKS = {
     },
     "read_hard": {
         "kind": "reading",
-        "intro": "📖 <b>Чтение, задание 2</b>\n\nЭтот текст сложнее. Прочитай его и ответь на 4 вопроса.",
+        "intro": "📖 <b>Чтение</b>\n\nПрочитай его и ответь на 4 вопроса.",
         "text": (
-            "<b>The Myth of Multitasking</b>\n\n"
-            "Many of us take pride in our ability to juggle several tasks at once: answering emails during "
-            "meetings, scrolling through the news while on the phone. Yet a growing body of research suggests "
-            "that what we call multitasking is, in fact, rapid switching between tasks, and that each switch "
-            "carries a cost. Studies have found that people who habitually multitask perform worse on tests of "
-            "attention and memory than those who tend to focus on one thing at a time. Perhaps more "
-            "surprisingly, heavy multitaskers often rate their own abilities highly, which may explain why the "
-            "habit is so hard to break.\n\n"
-            "None of this means that we should never do two things at once; listening to music while cooking "
-            "is unlikely to cause problems. The difficulty arises when both tasks demand our full attention."
+            "<b>The Myth of Multitasking</b>\n"
+            "\n"
+            "Many of us are proud of doing several things at once, like answering emails during meetings. Yet "
+            "research suggests that multitasking is really rapid switching between tasks, and each switch has a "
+            "cost. People who often multitask perform worse on tests of attention and memory. Surprisingly, heavy"
+            " multitaskers often rate their own abilities highly, which may explain why the habit is so hard to "
+            "break. Listening to music while cooking is fine: the problem begins when both tasks demand our full "
+            "attention."
         ),
         "questions": [
             {"text": "According to the text, what is multitasking really?",

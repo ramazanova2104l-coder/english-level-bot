@@ -59,7 +59,7 @@ TASKS = {
     "listen_easy": {
         "kind": "listening",
         "voice": "am_michael", "speed": 0.88,
-        "intro": "🎧 <b>Аудирование, задание 1</b>\n\nПослушай голосовое сообщение от партнёра "
+        "intro": "🎧 <b>Аудирование</b>\n\nПослушай голосовое сообщение от партнёра "
                  "и ответь на 4 вопроса. Можно слушать несколько раз.",
         "script": (
             "Hello, this is David Green from Northstar Logistics. I'm calling about our meeting on Tuesday. "
@@ -82,7 +82,7 @@ TASKS = {
     "listen_hard": {
         "kind": "listening",
         "voice": "af_heart", "speed": 1.0,
-        "intro": "🎧 <b>Аудирование, задание 2</b>\n\nЭто задание сложнее: руководитель делится опытом "
+        "intro": "🎧 <b>Аудирование</b>\n\nРуководитель делится опытом "
                  "в обычном темпе. Ответь на 4 вопроса.",
         "script": (
             "One of the biggest mistakes I see new managers make is assuming that their job is to have all the "
@@ -109,15 +109,16 @@ TASKS = {
     },
     "read_easy": {
         "kind": "reading",
-        "intro": "📖 <b>Чтение, задание 1</b>\n\nПрочитай рабочее письмо и ответь на 4 вопроса.",
+        "intro": "📖 <b>Чтение</b>\n\nПрочитай рабочее письмо и ответь на 4 вопроса.",
         "text": (
-            "Hi team,\n\n"
-            "Just a quick reminder about next week. On Monday we have a visit from our new clients from Germany, so "
-            "please come to the office by 9 a.m. instead of 10. The meeting will take place in Room 3 on the second "
-            "floor. Lunch will be provided, so you don't need to bring your own. On Friday the office will close "
-            "early, at 3 p.m., because of electrical work in the building. If you have any questions, please contact "
-            "me or Olga.\n\n"
-            "Best regards,\nMark"
+            "Hi team,\n"
+            "\n"
+            "On Monday we have a visit from our new clients from Germany, so please come to the office by 9 a.m. "
+            "instead of 10. Lunch will be provided, so you don't need to bring your own. On Friday the office "
+            "will close early, at 3 p.m., because of electrical work in the building.\n"
+            "\n"
+            "Best regards,\n"
+            "Mark"
         ),
         "questions": [
             {"text": "Why should the team come in early on Monday?",
@@ -135,18 +136,16 @@ TASKS = {
     },
     "read_hard": {
         "kind": "reading",
-        "intro": "📖 <b>Чтение, задание 2</b>\n\nЭтот текст сложнее. Прочитай статью и ответь на 4 вопроса.",
+        "intro": "📖 <b>Чтение</b>\n\nПрочитай статью и ответь на 4 вопроса.",
         "text": (
-            "<b>Is the Office Dead?</b>\n\n"
-            "When the pandemic forced millions of employees to work from home, many predicted that the traditional "
-            "office would never recover. Several years on, the picture is more complicated. Surveys consistently show "
-            "that most employees value the flexibility of remote work, and many say they would consider leaving "
-            "their job if it were taken away.\n\n"
-            "At the same time, a number of large companies have called staff back to the office, arguing that "
-            "creativity and team spirit suffer when colleagues never meet in person. The compromise that has emerged "
-            "in many organisations is the hybrid model, in which employees spend part of the week at home and part "
-            "in the office. Whether this proves to be a lasting solution or merely a transitional phase remains to "
-            "be seen."
+            "<b>Is the Office Dead?</b>\n"
+            "\n"
+            "When the pandemic sent millions of employees home, many predicted that the traditional office would "
+            "never recover. Several years on, the picture is more complicated. Surveys show that most employees "
+            "value the flexibility of remote work. At the same time, some large companies have called staff back,"
+            " arguing that creativity and team spirit suffer when colleagues never meet. Many organisations have "
+            "chosen a hybrid model, with part of the week at home and part in the office. Whether this will last "
+            "remains to be seen."
         ),
         "questions": [
             {"text": "What did many people predict during the pandemic?",

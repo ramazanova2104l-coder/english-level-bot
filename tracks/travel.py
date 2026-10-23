@@ -61,7 +61,7 @@ TASKS = {
     "listen_easy": {
         "kind": "listening",
         "voice": "af_bella", "speed": 0.88,
-        "intro": "🎧 <b>Аудирование, задание 1</b>\n\nПослушай объявление в аэропорту и ответь на 4 вопроса. "
+        "intro": "🎧 <b>Аудирование</b>\n\nПослушай объявление в аэропорту и ответь на 4 вопроса. "
                  "Можно слушать несколько раз.",
         "script": (
             "Attention, please. This is an announcement for passengers on flight B A two seven four to London. "
@@ -83,7 +83,7 @@ TASKS = {
     "listen_hard": {
         "kind": "listening",
         "voice": "af_heart", "speed": 1.0,
-        "intro": "🎧 <b>Аудирование, задание 2</b>\n\nЭто задание сложнее: тревел-блогер рассказывает о своих "
+        "intro": "🎧 <b>Аудирование</b>\n\nТревел-блогер рассказывает о своих "
                  "поездках в обычном темпе. Ответь на 4 вопроса.",
         "script": (
             "People often ask me how I manage to travel so much on such a small budget. The honest answer is that "
@@ -111,14 +111,14 @@ TASKS = {
     },
     "read_easy": {
         "kind": "reading",
-        "intro": "📖 <b>Чтение, задание 1</b>\n\nПрочитай информацию об отеле и ответь на 4 вопроса.",
+        "intro": "📖 <b>Чтение</b>\n\nПрочитай информацию об отеле и ответь на 4 вопроса.",
         "text": (
-            "<b>Sea View Hotel</b>\n\n"
-            "Our family hotel is just five minutes' walk from the beach. All rooms have free Wi-Fi, a fridge and a "
-            "balcony. Breakfast is served from 7 to 10 a.m. in the garden restaurant and is included in the price. "
-            "Dinner is available for an extra charge. Check-in is from 2 p.m., and check-out is before 11 a.m. If "
-            "you arrive early, you can leave your bags at reception and go to the beach. We are happy to book taxis "
-            "and boat trips for our guests. Please note that pets are not allowed."
+            "<b>Sea View Hotel</b>\n"
+            "\n"
+            "Our family hotel is five minutes' walk from the beach. All rooms have free Wi-Fi and a balcony. "
+            "Breakfast is included in the price and is served from 7 to 10 a.m. Check-in is from 2 p.m. If you "
+            "arrive early, you can leave your bags at reception and go to the beach. We are happy to book taxis "
+            "for our guests. Please note that pets are not allowed."
         ),
         "questions": [
             {"text": "How far is the hotel from the beach?",
@@ -134,19 +134,16 @@ TASKS = {
     },
     "read_hard": {
         "kind": "reading",
-        "intro": "📖 <b>Чтение, задание 2</b>\n\nЭтот текст сложнее. Прочитай статью и ответь на 4 вопроса.",
+        "intro": "📖 <b>Чтение</b>\n\nПрочитай статью и ответь на 4 вопроса.",
         "text": (
-            "<b>The Price of Popularity</b>\n\n"
-            "Venice, Barcelona and Amsterdam have something in common: they are struggling with what has come to be "
-            "known as overtourism. Every year, millions of visitors pour into their historic centres, pushing up "
-            "rents and forcing many long-term residents to move out. In some neighbourhoods, shops selling everyday "
-            "goods have been replaced by souvenir stalls, and locals complain that their city is turning into a "
-            "theme park.\n\n"
-            "City authorities have responded in different ways. Venice has introduced an entry fee for day-trippers, "
-            "while Amsterdam has banned new hotels in the city centre. Critics of such measures argue that they "
-            "penalise ordinary travellers and do little to address the real causes: cheap flights and short-term "
-            "rental platforms. What is clear is that the tourism model of the last few decades cannot simply "
-            "continue unchanged."
+            "<b>The Price of Popularity</b>\n"
+            "\n"
+            "Venice, Barcelona and Amsterdam share a problem known as overtourism. Every year millions of "
+            "visitors pour into their historic centres, pushing up rents and forcing many residents to move out. "
+            "City authorities have responded in different ways: Venice has introduced an entry fee for day-"
+            "trippers, while Amsterdam has banned new hotels in the centre. Critics say such measures do little "
+            "to address the real causes: cheap flights and short-term rentals. What is clear is that tourism "
+            "cannot simply continue unchanged."
         ),
         "questions": [
             {"text": "What problem do Venice, Barcelona and Amsterdam share?",

@@ -63,7 +63,7 @@ TASKS = {
     "listen_easy": {
         "kind": "listening",
         "voice": "af_bella", "speed": 0.88,
-        "intro": "🎧 <b>Аудирование, задание 1</b> (формат ОГЭ)\n\nПослушай школьное объявление "
+        "intro": "🎧 <b>Аудирование</b> (формат ОГЭ)\n\nПослушай школьное объявление "
                  "и ответь на 4 вопроса. Можно слушать несколько раз.",
         "script": (
             "Good morning, everyone. This is an announcement for all students in years eight and nine. "
@@ -91,7 +91,7 @@ TASKS = {
         "kind": "listening",
         # Диалог: строки, которые начинаются с "Interviewer:" и "Anna:", озвучиваются разными голосами
         "voices": {"Interviewer": "am_michael", "Anna": "af_heart"}, "speed": 1.0,
-        "intro": "🎧 <b>Аудирование, задание 2</b> (повышенный уровень)\n\nИнтервью с выпускницей. "
+        "intro": "🎧 <b>Аудирование</b> (повышенный уровень)\n\nИнтервью с выпускницей. "
                  "Ответь на 4 вопроса.",
         "script": (
             "Interviewer: So, Anna, you got one of the highest scores in the country in English. What was your secret?\n"
@@ -121,16 +121,16 @@ TASKS = {
     },
     "read_easy": {
         "kind": "reading",
-        "intro": "📖 <b>Чтение, задание 1</b> (формат ОГЭ)\n\nПрочитай текст. Для каждого утверждения выбери: "
+        "intro": "📖 <b>Чтение</b> (формат ОГЭ)\n\nПрочитай текст. Для каждого утверждения выбери: "
                  "<b>True</b> (верно), <b>False</b> (неверно) или <b>Not stated</b> (в тексте не сказано).",
         "text": (
-            "<b>Our School Trip</b>\n\n"
-            "Last month our class went on a trip to Kazan. We travelled by train, and the journey took about twelve "
-            "hours. Most of us had never been to Kazan before, so we were very excited. On the first day we visited "
-            "the Kremlin and took a lot of photos. In the evening our teacher, Mrs Petrova, took us to a café where "
-            "we tried traditional Tatar food. On the second day it was raining, so instead of walking around the "
-            "city we went to a science museum. Everyone agreed it was the best part of the trip. We came home tired "
-            "but happy, and now we are planning our next trip."
+            "<b>Our School Trip</b>\n"
+            "\n"
+            "Last month our class went on a trip to Kazan. We travelled by train, and the journey took twelve "
+            "hours. Most of us had never been to Kazan before, so we were very excited. On the first day we "
+            "visited the Kremlin. In the evening our teacher took us to a café where we tried traditional Tatar "
+            "food. On the second day it was raining, so we went to a science museum. We came home tired but "
+            "happy."
         ),
         "questions": [
             {"text": "The class travelled to Kazan by plane.", "options": TFN, "fixed": True, "answer": 1},
@@ -141,18 +141,16 @@ TASKS = {
     },
     "read_hard": {
         "kind": "reading",
-        "intro": "📖 <b>Чтение, задание 2</b> (повышенный уровень)\n\nПрочитай статью и ответь на 4 вопроса.",
+        "intro": "📖 <b>Чтение</b> (повышенный уровень)\n\nПрочитай статью и ответь на 4 вопроса.",
         "text": (
-            "<b>Teenagers and Sleep</b>\n\n"
-            "For years, parents and teachers have complained that teenagers are lazy because they find it so hard to "
-            "get up in the morning. Scientists, however, now believe that the problem is largely biological. During "
-            "adolescence, the body begins to produce melatonin, the hormone that makes us feel sleepy, about two "
-            "hours later than it does in children and adults. As a result, a typical teenager is simply not ready to "
-            "fall asleep before eleven o'clock at night, yet school often starts at eight.\n\n"
-            "Some schools in the USA have experimented with later start times, and the results have been "
-            "encouraging: attendance has risen, and students report feeling more alert in class. Critics argue that "
-            "later starts would cause problems for parents' work schedules and after-school activities, but "
-            "supporters insist that students' health should come first."
+            "<b>Teenagers and Sleep</b>\n"
+            "\n"
+            "Parents often say teenagers are lazy because they find it hard to get up in the morning. Scientists,"
+            " however, believe the problem is biological. In teenagers, the body produces melatonin, the hormone "
+            "that makes us sleepy, about two hours later than in adults. So a typical teenager is not ready to "
+            "fall asleep before eleven at night, yet school often starts at eight. Some American schools have "
+            "tried later start times: attendance has risen, and students feel more alert. Supporters say that "
+            "students' health should come first."
         ),
         "questions": [
             {"text": "According to scientists, why do teenagers find it hard to get up early?",
