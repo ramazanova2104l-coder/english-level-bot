@@ -1,0 +1,5 @@
+Сейчас в боте стоит озвучка синтезом речи (американский женский голос): listening.mp3.
+Если захотите заменить её своим голосом, прочитайте текст ниже вслух в спокойном темпе
+и сохраните запись в эту папку как listening.mp3 (или listening.m4a / listening.ogg), удалив старый файл.
+
+Hi, my name is Kate. I'm a nurse, and I live in a small town near Boston. Every morning I get up at six o'clock, because my shift starts at half past seven. I usually go to work by bike, unless it's raining. Then I take the bus. Last year I decided to learn Spanish, because I'd always wanted to travel around South America. At first it was really hard, and I nearly gave up after a couple of months. But then I found a conversation group that meets online on Thursday evenings, and that changed everything. Now I'm planning a trip to Peru next spring. If I hadn't joined that group, I don't think I'd still be learning.
