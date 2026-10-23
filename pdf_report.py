@@ -12,7 +12,9 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import ListFlowable, ListItem, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
 
 import config
+from questions import ORDER
 from recommendations import COMMON_ROUTINE_NOTE, RECOMMENDATIONS
+from tracks import TRACKS
 
 FONTS = Path(__file__).with_name("fonts")
 pdfmetrics.registerFont(TTFont("DejaVu", str(FONTS / "DejaVuSans.ttf")))
@@ -48,7 +50,27 @@ def box(paragraphs):
     return t
 
 
-def build_pdf(level_key: str, level_title: str, description: str, user_name: str) -> bytes:
+def goal_section(track: str, goal: str, level_key: str) -> list:
+    """Блок рекомендаций под цель ученика (ОГЭ/ЕГЭ, работа, путешествия и т. д.)."""
+    module = TRACKS[track]
+    recs = module.RECS
+    story = [Paragraph(escape(recs["title"]), h2)]
+    targets = getattr(module, "TARGETS", {})
+    for exam, (needed, note) in targets.items():
+        if exam in goal:
+            if ORDER.index(level_key) >= ORDER.index(needed):
+                text = f"{exam}: {note}. Ваш уровень уже подходит, теперь главное — формат экзамена и стратегия."
+            else:
+                text = f"{exam}: {note}. Сейчас важно подтянуть уровень и параллельно привыкать к формату заданий."
+            story += [Paragraph(escape(text), base), Spacer(1, 4)]
+    story.append(bullets(recs["tips"]))
+    if recs.get("resources"):
+        story += [Spacer(1, 4), Paragraph("Материалы под вашу цель:", base), bullets(recs["resources"])]
+    return story
+
+
+def build_pdf(level_key: str, level_title: str, description: str, user_name: str,
+              track: str = "general", goal: str = "", parts: dict = None) -> bytes:
     rec = RECOMMENDATIONS[level_key]
     buf = BytesIO()
     doc = SimpleDocTemplate(buf, pagesize=A4, leftMargin=20 * mm, rightMargin=20 * mm,
@@ -57,9 +79,13 @@ def build_pdf(level_key: str, level_title: str, description: str, user_name: str
     story = [
         Paragraph("Как учить английский на вашем уровне", h1),
         Spacer(1, 4),
-        Paragraph(f"Для: {escape(user_name)} · уровень <b>{escape(level_title)}</b>", base),
+        Paragraph((f"Для: {escape(user_name)} · " if user_name else "") + f"уровень <b>{escape(level_title)}</b>"
+                  + (f" · цель: {escape(goal)}" if goal else ""), base),
         Spacer(1, 6),
         Paragraph(escape(description), base),
+        *([Spacer(1, 4), Paragraph(escape(" · ".join(f"{k}: {v}" for k, v in parts.items())), small)]
+          if parts else []),
+        *goal_section(track, goal, level_key),
         Paragraph("На чём сосредоточиться", h2), bullets(rec["focus"]),
         Paragraph("План на день (20–30 минут)", h2), bullets(rec["routine"]),
         Spacer(1, 4), Paragraph(escape(COMMON_ROUTINE_NOTE), small),

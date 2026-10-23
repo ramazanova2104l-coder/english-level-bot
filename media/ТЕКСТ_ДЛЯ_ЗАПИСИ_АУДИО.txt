@@ -1,5 +1,36 @@
-Сейчас в боте стоит озвучка синтезом речи (американский женский голос): listening.mp3.
-Если захотите заменить её своим голосом, прочитайте текст ниже вслух в спокойном темпе
-и сохраните запись в эту папку как listening.mp3 (или listening.m4a / listening.ogg), удалив старый файл.
+Сейчас в боте стоит озвучка синтезом речи (американские голоса). Файлы лежат в этой папке:
+<цель>_listen_easy.mp3 — базовое задание, <цель>_listen_hard.mp3 — сложное.
+Если захотите заменить запись своим голосом, прочитайте нужный текст ниже и сохраните файл с тем же именем.
 
-Hi, my name is Kate. I'm a nurse, and I live in a small town near Boston. Every morning I get up at six o'clock, because my shift starts at half past seven. I usually go to work by bike, unless it's raining. Then I take the bus. Last year I decided to learn Spanish, because I'd always wanted to travel around South America. At first it was really hard, and I nearly gave up after a couple of months. But then I found a conversation group that meets online on Thursday evenings, and that changed everything. Now I'm planning a trip to Peru next spring. If I hadn't joined that group, I don't think I'd still be learning.
+===== general_listen_easy.mp3 (Разговорный английский / Просто интересно) =====
+Hi Sam, it's Maria. I'm calling about Saturday. I'm really sorry, but I can't meet you at six, because I have to work until half past five. Can we meet at seven instead? Actually, no. The film starts at a quarter past seven, and we still need to buy tickets. Let's say a quarter to seven, outside the cinema. Oh, and my brother Tom wants to come with us. Is that OK? Don't worry, he says he'll pay for the popcorn! Call me back when you get this. Bye!
+
+===== general_listen_hard.mp3 (Разговорный английский / Просто интересно) =====
+A lot of people assume that the key to learning a language is talent. You've either got it or you haven't. But the research really doesn't back that up. What seems to matter far more is how consistently you're exposed to the language, and, crucially, whether you're actually made to produce it. You can listen to podcasts for years and still freeze the moment someone asks you a question. That's not because you don't know the words. It's because retrieving them under pressure is a separate skill, and it only develops through practice. So if I had to give one piece of advice, it wouldn't be 'study more grammar'. It would be: find situations where you have no choice but to speak, even if you feel a bit uncomfortable at first.
+
+===== exam_listen_easy.mp3 (ОГЭ / ЕГЭ) =====
+Good morning, everyone. This is an announcement for all students in years eight and nine. This Friday there will be no lessons after lunch, because the school is holding its annual sports day. Please bring your sports clothes and a bottle of water. The competitions will start at one o'clock at the main stadium. If it rains, they will take place in the gym instead. Students who want to take part in the running races should give their names to Mr Ivanov before Wednesday. Parents are welcome to come and watch. Thank you.
+
+===== exam_listen_hard.mp3 (ОГЭ / ЕГЭ) =====
+Interviewer: So, Anna, you got one of the highest scores in the country in English. What was your secret?
+Anna: Honestly, there wasn't really a secret. I'd say the most important thing was that I started preparing early, in tenth grade, rather than leaving it until the last few months. And I didn't just do practice tests. I actually think a lot of students overdo those. I read books and watched series in English because I enjoyed it, and that helped my vocabulary far more than memorising word lists.
+Interviewer: Was there any part of the exam you found particularly difficult?
+Anna: The essay, definitely. At first my essays were full of ideas but badly organised. My teacher kept telling me that examiners care about structure just as much as content, and once I started planning each paragraph before writing, my marks went up quite quickly.
+
+===== travel_listen_easy.mp3 (Для путешествий) =====
+Attention, please. This is an announcement for passengers on flight B A two seven four to London. Unfortunately, the flight has been delayed by forty-five minutes because of bad weather. The new departure time is eleven fifteen. Boarding will now take place at gate twelve, not gate eight. Passengers with small children may board first. We apologise for any inconvenience. Thank you.
+
+===== travel_listen_hard.mp3 (Для путешествий) =====
+People often ask me how I manage to travel so much on such a small budget. The honest answer is that I've stopped trying to see everything. When I first started travelling, I'd rush from one famous sight to the next, ticking things off a list, and I'd come home exhausted and, frankly, with very few real memories. These days I'll pick one neighbourhood and stay there for a week. I rent a small flat instead of a hotel, I shop at the local market, and I eat wherever the locals eat. Not only does it work out much cheaper, but I actually get to talk to people. Some of my best travel moments have come from a conversation with a shop owner, not from a museum.
+
+===== work_listen_easy.mp3 (Для работы) =====
+Hello, this is David Green from Northstar Logistics. I'm calling about our meeting on Tuesday. I'm afraid I can't make it in the morning, because I have to visit a customer. Could we move it to Wednesday at two o'clock instead? I'll bring the new price list with me. If Wednesday doesn't work for you, please send me an email, and we can find another time. Thanks, bye.
+
+===== work_listen_hard.mp3 (Для работы) =====
+One of the biggest mistakes I see new managers make is assuming that their job is to have all the answers. It isn't. In fact, the moment you start solving every problem yourself, your team stops thinking. What I've found works much better is asking questions. What do you think we should do? What options have you considered? At first it feels slower, and frankly, it can be frustrating when you can see the solution and they can't. But within a few months, people start coming to you with solutions rather than problems, and that frees you up to focus on the bigger picture.
+
+===== kids_listen_easy.mp3 (Для ребёнка) =====
+Hi! My name's Ben, and I'm eleven. I want to tell you about my dog, Max. He's three years old, and he's very big and brown. Every morning before school, I take him for a walk in the park. Max loves playing with balls, but he's scared of cats! On Saturdays my dad and I take him to the river, and he swims there. Max sleeps in the kitchen, but sometimes he jumps onto my bed at night.
+
+===== kids_listen_hard.mp3 (Для ребёнка) =====
+For our science project this year, my friend Lily and I decided to find out whether plants grow better with music. We took six identical plants and put three of them in a room where classical music was playing for two hours a day, and the other three in a quiet room. We gave them exactly the same amount of water and light. To be honest, we expected the music plants to grow much faster, but after a month the difference was tiny, so small that our teacher said it could just be a coincidence. We were a bit disappointed at first, but our teacher explained that an unexpected result is still a real result, and that's what science is all about.

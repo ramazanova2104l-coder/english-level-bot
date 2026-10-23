@@ -32,7 +32,9 @@ except ImportError:
 
 import config
 from pdf_report import build_pdf
-from questions import LEVELS, LISTENING, QUESTIONS, READING, RESULTS, calc_level
+from questions import (LEVELS, PASS_SCORE, RESULTS, final_level, grammar_level, hard_task_allowed,
+                       skill_level)
+from tracks import TRACKS
 
 LEADS_FILE = Path(__file__).with_name("leads.csv")
 dp = Dispatcher()
@@ -90,7 +92,7 @@ async def start(message: Message, state: FSMContext):
     await state.set_state(Test.goal)
     await message.answer(
         config.WELCOME_TEXT.format(name=config.TEACHER_NAME),
-        reply_markup=kb([(g, f"goal:{i}") for i, g in enumerate(config.GOALS)]),
+        reply_markup=kb([(label, f"goal:{i}") for i, (label, _) in enumerate(config.GOALS)]),
     )
 
 
@@ -111,119 +113,179 @@ async def leads(message: Message):
 
 @dp.callback_query(Test.goal, F.data.startswith("goal:"))
 async def choose_goal(call: CallbackQuery, state: FSMContext):
-    goal = config.GOALS[int(call.data.split(":")[1])]
-    await state.update_data(goal=goal, step=0, steps=build_steps(),
-                            correct={lvl: 0 for lvl in LEVELS})
+    goal, track = config.GOALS[int(call.data.split(":")[1])]
+    await state.update_data(goal=goal, track=track, blocks=[["g", "A1"]], bi=0, qi=0, scores={})
     await state.set_state(Test.question)
-    await call.message.edit_text(f"Цель: <b>{html.escape(goal)}</b>\n\nПоехали! 🚀\n\n✏️ <b>Грамматика</b>")
+    await call.message.edit_text(
+        f"Цель: <b>{html.escape(goal)}</b>\n\nПоехали! 🚀\n\n"
+        "✏️ <b>Часть 1. Грамматика и лексика</b>\n"
+        "Вопросы будут постепенно усложняться. Если не знаете ответ, нажмите «🤷 Не знаю»: "
+        "так результат будет точнее, чем если угадывать."
+    )
     await send_question(call.message, state, new_message=True)
     await call.answer()
 
 
 # ---------- вопросы ----------
 
-SECTIONS = {"grammar": QUESTIONS, "listening": LISTENING["questions"], "reading": READING["questions"]}
-SECTION_LABELS = {"grammar": "✏️ Грамматика", "listening": "🎧 Аудирование", "reading": "📖 Чтение"}
 MEDIA = Path(__file__).with_name("media")
+DONT_KNOW = "🤷 Не знаю"
 
 
-def listening_file():
+def audio_file(track: str, task: str):
     for ext in ("mp3", "m4a", "ogg", "wav"):
-        path = MEDIA / f"listening.{ext}"
+        path = MEDIA / f"{track}_{task}.{ext}"
         if path.exists():
             return path
     return None
 
 
-def build_steps():
-    """Порядок вопросов: грамматика, аудио (если есть запись), текст."""
-    sections = ["grammar"] + (["listening"] if listening_file() else []) + ["reading"]
-    return [[section, i] for section in sections for i in range(len(SECTIONS[section]))]
+def block_questions(track: str, block):
+    kind, key = block
+    module = TRACKS[track]
+    return module.GRAMMAR[key] if kind == "g" else module.TASKS[key]["questions"]
 
 
-def question_of(step):
-    section, i = step
-    return SECTIONS[section][i]
+def is_correct(q, option: str) -> bool:
+    if option == "x":
+        return False
+    return int(option) == q.get("answer", 0)
 
 
-async def send_section_intro(message: Message, section: str):
-    if section == "listening":
-        await message.answer(LISTENING["intro"])
-        path = listening_file()
+def grammar_scores(scores: dict) -> dict:
+    return {lvl: scores.get(f"g:{lvl}", 0) for lvl in LEVELS}
+
+
+async def send_task_intro(message: Message, track: str, name: str):
+    task = TRACKS[track].TASKS[name]
+    await message.answer(task["intro"])
+    if task["kind"] == "listening":
+        path = audio_file(track, name)
         if path.suffix == ".ogg":
             await message.answer_voice(FSInputFile(path))
         else:
             await message.answer_audio(FSInputFile(path), title="Listening task", performer=config.TEACHER_NAME)
-    elif section == "reading":
-        await message.answer(READING["intro"])
-        await message.answer(READING["text"])
+    else:
+        await message.answer(task["text"])
 
 
 async def send_question(message: Message, state: FSMContext, new_message=False):
     data = await state.get_data()
-    steps, step = data["steps"], data["step"]
-    section = steps[step][0]
-    q = question_of(steps[step])
+    track, blocks, bi, qi = data["track"], data["blocks"], data["bi"], data["qi"]
+    block = blocks[bi]
+    questions = block_questions(track, block)
+    q = questions[qi]
     order = list(range(len(q["options"])))
-    random.shuffle(order)
-    text = (f"{SECTION_LABELS[section]} · вопрос {step + 1} из {len(steps)}\n\n"
-            f"<b>{html.escape(q['text'])}</b>")
-    markup = kb([(q["options"][o], f"ans:{step}:{o}") for o in order])
-    if new_message:
-        await message.answer(text, reply_markup=markup)
+    if not q.get("fixed"):
+        random.shuffle(order)
+    if block[0] == "g":
+        number = sum(1 for b in blocks[:bi] if b[0] == "g") * 5 + qi + 1
+        label = f"✏️ Грамматика и лексика · вопрос {number}"
     else:
-        await message.edit_text(text, reply_markup=markup)
+        kind = TRACKS[track].TASKS[block[1]]["kind"]
+        label = ("🎧 Аудирование" if kind == "listening" else "📖 Чтение") + f" · вопрос {qi + 1} из {len(questions)}"
+    text = f"{label}\n\n<b>{html.escape(q['text'])}</b>"
+    rows = [(q["options"][o], f"a:{bi}:{qi}:{o}") for o in order] + [(DONT_KNOW, f"a:{bi}:{qi}:x")]
+    if new_message:
+        await message.answer(text, reply_markup=kb(rows))
+    else:
+        await message.edit_text(text, reply_markup=kb(rows))
 
 
-@dp.callback_query(Test.question, F.data.startswith("ans:"))
+def plan_next_blocks(data: dict) -> list:
+    """После каждого блока решаем, что показывать дальше (тест подстраивается под ученика)."""
+    track, blocks, bi, scores = data["track"], data["blocks"], data["bi"], data["scores"]
+    kind, key = blocks[bi]
+    score = scores.get(f"{kind}:{key}", 0)
+    extra = []
+    if kind == "g":
+        if score >= PASS_SCORE and key != LEVELS[-1]:
+            extra = [["g", LEVELS[LEVELS.index(key) + 1]]]
+        else:  # грамматика закончена, дальше аудирование и чтение
+            if audio_file(track, "listen_easy"):
+                extra.append(["t", "listen_easy"])
+            extra.append(["t", "read_easy"])
+    elif key.endswith("_easy"):
+        hard = key.replace("_easy", "_hard")
+        grammar = grammar_level(grammar_scores(scores))
+        if hard_task_allowed(score, grammar) and (hard.startswith("read") or audio_file(track, hard)):
+            extra = [["t", hard]]
+    return blocks[:bi + 1] + extra + blocks[bi + 1:]
+
+
+@dp.callback_query(Test.question, F.data.startswith("a:"))
 async def answer(call: CallbackQuery, state: FSMContext):
-    _, step, option = call.data.split(":")
-    step, option = int(step), int(option)
+    _, bi, qi, option = call.data.split(":")
+    bi, qi = int(bi), int(qi)
     data = await state.get_data()
-    if step != data["step"]:  # повторное нажатие на старый вопрос
+    if (bi, qi) != (data["bi"], data["qi"]):  # повторное нажатие на старый вопрос
         await call.answer()
         return
 
-    steps, correct = data["steps"], data["correct"]
-    q = question_of(steps[step])
-    if option == 0:  # правильный ответ в questions.py всегда первый
-        correct[q["level"]] += 1
-    step += 1
-    await state.update_data(step=step, correct=correct)
+    track, blocks, scores = data["track"], data["blocks"], data["scores"]
+    kind, key = blocks[bi]
+    questions = block_questions(track, blocks[bi])
+    if is_correct(questions[qi], option):
+        scores[f"{kind}:{key}"] = scores.get(f"{kind}:{key}", 0) + 1
+    await state.update_data(scores=scores)
 
-    if step == len(steps):
+    if qi + 1 < len(questions):
+        await state.update_data(qi=qi + 1)
+        await send_question(call.message, state)
+        await call.answer()
+        return
+
+    # блок закончен
+    data = await state.get_data()
+    blocks = plan_next_blocks(data)
+    bi += 1
+    await state.update_data(blocks=blocks, bi=bi, qi=0)
+    if bi == len(blocks):
         await call.message.edit_reply_markup(reply_markup=None)
         await show_result(call, state)
-    elif steps[step][0] != steps[step - 1][0]:  # начинается новый блок
-        await call.message.edit_reply_markup(reply_markup=None)
-        await send_section_intro(call.message, steps[step][0])
-        await send_question(call.message, state, new_message=True)
-    else:
+    elif blocks[bi][0] == "g":  # следующий уровень грамматики, продолжаем в том же сообщении
         await send_question(call.message, state)
+    else:
+        await call.message.edit_reply_markup(reply_markup=None)
+        await send_task_intro(call.message, track, blocks[bi][1])
+        await send_question(call.message, state, new_message=True)
     await call.answer()
+
+
+def skill_result(scores: dict, part: str):
+    if f"t:{part}_easy" not in scores:
+        return None
+    return skill_level(scores[f"t:{part}_easy"], scores.get(f"t:{part}_hard"))
 
 
 async def show_result(call: CallbackQuery, state: FSMContext):
     data = await state.get_data()
-    steps = data["steps"]
-    asked = {lvl: 0 for lvl in LEVELS}
-    for st in steps:
-        asked[question_of(st)["level"]] += 1
-    level = calc_level(data["correct"], asked)
-    score = sum(data["correct"].values())
+    track, scores, blocks = data["track"], data["scores"], data["blocks"]
+    done = {f"{k}:{v}" for k, v in blocks}
+    for key in done:  # блок без единого верного ответа тоже должен учитываться
+        scores.setdefault(key, 0)
+
+    grammar = grammar_level(grammar_scores(scores))
+    parts = {"Грамматика и лексика": grammar}
+    if "t:listen_easy" in done:
+        parts["Аудирование"] = skill_result(scores, "listen")
+    parts["Чтение"] = skill_result(scores, "read")
+    level = final_level(list(parts.values()))
     title, description = RESULTS[level]
-    await state.update_data(level=title, score=f"{score}/{len(steps)}")
+    breakdown = " · ".join(f"{name}: {lvl}" for name, lvl in parts.items())
+    await state.update_data(level=title, score=breakdown)
     await state.set_state(Test.done)
 
     await call.message.answer(
-        f"🎉 Готово! Правильных ответов: {score} из {len(steps)}\n\n"
-        f"Ваш уровень: <b>{title}</b>\n\n{description}\n\n"
+        f"🎉 Готово!\n\nВаш уровень: <b>{title}</b>\n"
+        + "\n".join(f"• {name}: {lvl}" for name, lvl in parts.items())
+        + f"\n\n{description}\n\n"
         f"Говорение {config.TEACHER_NAME} проверит на бесплатном пробном уроке "
         "и составит план под вашу цель.\n\n"
         + config.LESSON_TEXT.format(name=config.TEACHER_NAME),
         reply_markup=result_kb(),
     )
-    pdf = build_pdf(level, title, description, call.from_user.first_name or "")
+    pdf = build_pdf(level, title, description, call.from_user.first_name or "", track, data["goal"], parts)
     await call.message.answer_document(
         BufferedInputFile(pdf, filename=f"Как учить английский — {level if level != 'A0' else 'A1'}.pdf"),
         caption=(f"📄 Ваши рекомендации, как учить английский на уровне {title}.\n\n"
@@ -234,8 +296,8 @@ async def show_result(call: CallbackQuery, state: FSMContext):
         await notify_admin(
             call.bot,
             f"ℹ️ Прошёл тест: {user_label(call.from_user)}\n"
-            f"Уровень: {title} ({score}/{len(steps)})\n"
-            f"Цель: {html.escape(data['goal'])}",
+            f"Цель: {html.escape(data['goal'])}\n"
+            f"Уровень: {title}\n{breakdown}",
         )
 
 
@@ -307,7 +369,7 @@ async def got_contact(message: Message, state: FSMContext):
         f"Имя: {html.escape(data.get('name', ''))}\n"
         f"Контакт: {html.escape(contact)}\n"
         f"Telegram: {user_label(user)}\n"
-        f"Уровень: {data.get('level', '—')} ({data.get('score', '—')})\n"
+        f"Уровень: {data.get('level', '—')}\n{data.get('score', '')}\n"
         f"Цель: {html.escape(data.get('goal', '—'))}",
     )
     await state.set_state(Test.done)

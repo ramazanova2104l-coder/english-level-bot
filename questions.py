@@ -1,52 +1,16 @@
-import math
-
-# Вопросы теста. Первый вариант ответа в каждом вопросе — правильный
-# (бот сам перемешивает варианты перед показом).
-# По 4 вопроса на каждый уровень, от простого к сложному.
-
-QUESTIONS = [
-    # --- A1 ---
-    {"level": "A1", "text": "She ___ a teacher.", "options": ["is", "am", "are", "be"]},
-    {"level": "A1", "text": "I ___ like coffee.", "options": ["don't", "doesn't", "not", "no"]},
-    {"level": "A1", "text": "There ___ two cats in the room.", "options": ["are", "is", "am", "be"]},
-    {"level": "A1", "text": "___ you speak English?", "options": ["Do", "Does", "Are", "Is"]},
-    # --- A2 ---
-    {"level": "A2", "text": "Yesterday I ___ to the cinema.", "options": ["went", "go", "gone", "goes"]},
-    {"level": "A2", "text": "This book is ___ than that one.",
-     "options": ["more interesting", "interestinger", "most interesting", "the more interesting"]},
-    {"level": "A2", "text": "I ___ TV when you called.",
-     "options": ["was watching", "watched", "am watching", "watch"]},
-    {"level": "A2", "text": "How ___ money do you have?", "options": ["much", "many", "lot", "few"]},
-    # --- B1 ---
-    {"level": "B1", "text": "I ___ in Moscow since 2015.",
-     "options": ["have lived", "live", "am living", "lived"]},
-    {"level": "B1", "text": "If it rains tomorrow, we ___ at home.",
-     "options": ["will stay", "stay", "would stay", "stayed"]},
-    {"level": "B1", "text": "The letter ___ yesterday.",
-     "options": ["was sent", "sent", "has sent", "is sent"]},
-    {"level": "B1", "text": "He suggested ___ a taxi.",
-     "options": ["taking", "to take", "take", "took"]},
-    # --- B2 ---
-    {"level": "B2", "text": "If I ___ about the meeting, I would have come.",
-     "options": ["had known", "knew", "have known", "would know"]},
-    {"level": "B2", "text": "By the time we arrived, the film ___.",
-     "options": ["had already started", "already started", "has already started", "was already starting"]},
-    {"level": "B2", "text": "I wish I ___ more time to study.",
-     "options": ["had", "have", "would have", "having"]},
-    {"level": "B2", "text": "You ___ have told me! I would have helped.",
-     "options": ["should", "must", "can", "would"]},
-    # --- C1 ---
-    {"level": "C1", "text": "Hardly ___ the house when it started to rain.",
-     "options": ["had I left", "I had left", "I left", "did I leave"]},
-    {"level": "C1", "text": "It's high time we ___ a decision.",
-     "options": ["made", "make", "will make", "have made"]},
-    {"level": "C1", "text": "Not only ___ late, but he also forgot the tickets.",
-     "options": ["was he", "he was", "he is", "did he"]},
-    {"level": "C1", "text": "The new law will ___ affect small businesses.",
-     "options": ["adversely", "adverse", "averse", "aversely"]},
-]
+# Общие правила подсчёта уровня. Сами вопросы лежат в папке tracks (свой тест под каждую цель).
+#
+# Как устроен тест:
+# 1. Грамматика и лексика: по 5 вопросов на уровень, от A1 к C1. Уровень засчитан, если верно 4 из 5.
+#    Если уровень не засчитан, более сложные вопросы не показываются.
+# 2. Аудирование и чтение: базовое задание (A2–B1). Сложное задание (B2–C1) дают, только если
+#    базовое выполнено хорошо (3–4 из 4) и грамматика не ниже B1.
+# 3. Итог: средний из трёх результатов (грамматика, аудирование, чтение), чтобы одна удачная
+#    часть не завышала уровень. На каждый вопрос есть кнопка «Не знаю», чтобы не угадывать.
 
 LEVELS = ["A1", "A2", "B1", "B2", "C1"]
+ORDER = ["A0"] + LEVELS  # A0 — ниже A1
+PASS_SCORE = 4
 
 # Описание результата для ученика
 RESULTS = {
@@ -72,76 +36,36 @@ RESULTS = {
 }
 
 
-def calc_level(correct_by_level: dict, asked_by_level: dict) -> str:
-    """Уровень = самый высокий, на котором (и на всех ниже) верно минимум 60% вопросов.
-    На A1 это 3 из 4, на A2–C1 (грамматика + аудио + текст) это 4 из 6."""
+def up(level: str, steps: int = 1) -> str:
+    return ORDER[min(ORDER.index(level) + steps, len(ORDER) - 1)]
+
+
+def grammar_level(scores: dict) -> str:
+    """Самый высокий уровень, который засчитан подряд, начиная с A1."""
     result = "A0"
     for level in LEVELS:
-        asked = asked_by_level.get(level, 0)
-        if asked and correct_by_level.get(level, 0) >= math.ceil(asked * 0.6):
+        if scores.get(level, 0) >= PASS_SCORE:
             result = level
         else:
             break
     return result
 
 
-# ---- Аудирование ----
-# Запись лежит в папке media (файл listening.mp3, .m4a, .ogg или .wav).
-# Если файла нет, бот просто пропускает этот блок.
-LISTENING = {
-    "intro": "🎧 <b>Аудирование</b>\n\nПослушайте короткий рассказ (меньше минуты) и ответьте на 4 вопроса. "
-             "Можно слушать несколько раз.",
-    # Текст, который нужно начитать для записи
-    "script": (
-        "Hi, my name is Kate. I'm a nurse, and I live in a small town near Boston. "
-        "Every morning I get up at six o'clock, because my shift starts at half past seven. "
-        "I usually go to work by bike, unless it's raining. Then I take the bus. "
-        "Last year I decided to learn Spanish, because I'd always wanted to travel around South America. "
-        "At first it was really hard, and I nearly gave up after a couple of months. "
-        "But then I found a conversation group that meets online on Thursday evenings, "
-        "and that changed everything. Now I'm planning a trip to Peru next spring. "
-        "If I hadn't joined that group, I don't think I'd still be learning."
-    ),
-    "questions": [
-        {"level": "A2", "text": "What is Kate's job?",
-         "options": ["A nurse", "A teacher", "A doctor", "A student"]},
-        {"level": "B1", "text": "How does Kate get to work when it rains?",
-         "options": ["By bus", "By bike", "By car", "On foot"]},
-        {"level": "B2", "text": "Why did Kate start learning Spanish?",
-         "options": ["She had always wanted to travel in South America", "Her job required it",
-                     "Her best friend is from Peru", "She was moving to Spain"]},
-        {"level": "C1", "text": "What does Kate suggest about the conversation group?",
-         "options": ["It is the reason she didn't give up", "It was too expensive for her",
-                     "She doesn't go there any more", "It meets every morning"]},
-    ],
-}
+def hard_task_allowed(easy_score: int, grammar: str) -> bool:
+    return easy_score >= 3 and ORDER.index(grammar) >= ORDER.index("B1")
 
-# ---- Чтение ----
-READING = {
-    "intro": "📖 <b>Чтение</b>\n\nПрочитайте текст и ответьте на 4 вопроса.",
-    "text": (
-        "<b>The Four-Day Week</b>\n\n"
-        "Last year, several companies in the UK took part in an experiment: for six months, "
-        "employees worked four days a week instead of five, but received the same salary. "
-        "The results surprised many sceptics. Most companies reported that productivity stayed "
-        "the same or even improved, while staff said they felt less stressed and slept better. "
-        "Interestingly, the number of people taking sick days fell significantly.\n\n"
-        "However, the idea does not suit every business. Hospitals and shops, for example, need "
-        "people available every day, so they would have to hire more staff. Despite this, over "
-        "ninety percent of the companies decided to continue with the four-day week after the "
-        "trial ended."
-    ),
-    "questions": [
-        {"level": "A2", "text": "How long did the experiment last?",
-         "options": ["Six months", "One year", "Four days", "Five weeks"]},
-        {"level": "B1", "text": "What happened to the employees' salaries?",
-         "options": ["They stayed the same", "They went down", "They went up",
-                     "They were paid for four days only"]},
-        {"level": "B2", "text": "Why might a four-day week be difficult for hospitals?",
-         "options": ["They need staff every day", "Doctors don't want it",
-                     "It is too expensive for patients", "Hospitals didn't take part in the trial"]},
-        {"level": "C1", "text": "The word \"sceptics\" refers to people who...",
-         "options": ["doubted the idea would work", "organised the experiment",
-                     "worked at the companies", "often took sick days"]},
-    ],
-}
+
+def skill_level(easy_score: int, hard_score=None) -> str:
+    """Уровень аудирования или чтения по базовому и (если было) сложному заданию."""
+    base = {0: "A0", 1: "A1", 2: "A2", 3: "A2", 4: "B1"}[easy_score]
+    if hard_score is None or hard_score <= 1:
+        return base
+    if hard_score == 2:
+        return max(base, "B1", key=ORDER.index)
+    return "B2" if hard_score == 3 else "C1"
+
+
+def final_level(parts: list) -> str:
+    """Итог по частям теста: при трёх частях — средний результат, при двух — меньший."""
+    ranked = sorted(parts, key=ORDER.index)
+    return ranked[1] if len(ranked) == 3 else ranked[0]
