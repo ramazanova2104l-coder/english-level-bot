@@ -9,6 +9,7 @@ from pathlib import Path
 
 from aiogram import Bot, Dispatcher, F
 from aiogram.client.default import DefaultBotProperties
+from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters import Command, CommandStart
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
@@ -31,7 +32,10 @@ except ImportError:
     pass
 
 import config
+from formats import (BUY_NAMES, BUY_TEXT, PRICES, QUIZ, QUIZ_CANDIDATES, QUIZ_RESULT_TEXT, QUIZ_SHORT,
+                     QUIZ_WEIGHTS, SECTIONS)
 from pdf_report import build_pdf
+from price_image import price_png
 from questions import (LEVELS, PASS_SCORE, RESULTS, final_level, grammar_level, hard_task_allowed,
                        skill_level)
 from tracks import TRACKS
@@ -57,7 +61,8 @@ def kb(rows):
 def result_kb():
     return kb([
         ("🎁 Записаться на бесплатный урок", "book"),
-        ("🗣 Speaking Club", "club"),
+        ("💰 Форматы занятий и цены", "formats_new"),
+        ("🗣️ Speaking Club", "club"),
         ("🔄 Пройти тест заново", "restart"),
     ])
 
@@ -76,12 +81,18 @@ async def notify_admin(bot: Bot, text: str):
 
 
 def save_lead(row: dict):
-    new_file = not LEADS_FILE.exists()
-    with LEADS_FILE.open("a", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=list(row.keys()))
-        if new_file:
-            writer.writeheader()
-        writer.writerow(row)
+    rows = []
+    if LEADS_FILE.exists():
+        with LEADS_FILE.open(newline="", encoding="utf-8") as f:
+            rows = list(csv.DictReader(f))
+    rows.append(row)
+    fields = list(row.keys())
+    for old in rows:  # если в старой таблице были другие колонки, сохраняем их тоже
+        fields += [k for k in old if k not in fields]
+    with LEADS_FILE.open("w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=fields, restval="")
+        writer.writeheader()
+        writer.writerows(rows)
 
 
 # ---------- старт и цель ----------
@@ -273,18 +284,22 @@ async def show_result(call: CallbackQuery, state: FSMContext):
     level = final_level(list(parts.values()))
     title, description = RESULTS[level]
     breakdown = " · ".join(f"{name}: {lvl}" for name, lvl in parts.items())
-    await state.update_data(level=title, score=breakdown)
+    code = title.split("(")[-1].rstrip(")")
+    overall = f"💡 Общий уровень ориентировочно {code}."
+    if len(set(parts.values())) > 1:
+        overall += " Отдельные навыки могут быть развиты сильнее других."
+    result_text = (
+        f"🎉 Твой уровень: <b>{title}</b>!\n\n"
+        "📊 <b>Результаты теста:</b>\n"
+        + "\n".join(f"• {name}: {lvl}" for name, lvl in parts.items())
+        + f"\n\n{overall}\n\n"
+        f"<b>Что это значит?</b> ✨\n{description}\n\n"
+        + config.RESULT_NEXT_TEXT
+    )
+    await state.update_data(level=title, score=breakdown, result_text=result_text)
     await state.set_state(Test.done)
 
-    await call.message.answer(
-        f"🎉 Готово!\n\nТвой уровень: <b>{title}</b>\n"
-        + "\n".join(f"• {name}: {lvl}" for name, lvl in parts.items())
-        + f"\n\n{description}\n\n"
-        f"Говорение {config.TEACHER_NAME} проверит на бесплатном пробном уроке "
-        "и составит план под твою цель.\n\n"
-        + config.LESSON_TEXT.format(name=config.TEACHER_NAME),
-        reply_markup=result_kb(),
-    )
+    await call.message.answer(result_text, reply_markup=result_kb())
     pdf = build_pdf(level, title, description, call.from_user.first_name or "", track, data["goal"], parts)
     await call.message.answer_document(
         BufferedInputFile(pdf, filename=f"Как учить английский - {level if level != 'A0' else 'A1'}.pdf"),
@@ -320,10 +335,124 @@ async def club(call: CallbackQuery):
     await call.answer()
 
 
+# ---------- форматы занятий и цены ----------
+
+def target_data(target: str) -> str:
+    """Куда ведёт кнопка из formats.py -> callback_data для Telegram."""
+    if target.startswith("price:"):
+        return "p:" + target.split(":", 1)[1]
+    if target in ("book", "results", "club") or target.startswith("buy:"):
+        return target
+    if target == "quiz":
+        return "q"
+    return "f:" + target
+
+
+def section_kb(buttons):
+    return kb([(label, target_data(target)) for label, target in buttons])
+
+
+async def show_text(call: CallbackQuery, text: str, markup):
+    """Меняем текущее сообщение, а если это картинка - присылаем новое."""
+    if call.message.text:
+        try:
+            await call.message.edit_text(text, reply_markup=markup)
+            return
+        except TelegramBadRequest:
+            pass
+    await call.message.answer(text, reply_markup=markup)
+
+
+@dp.message(Command("formats"))
+async def formats_command(message: Message):
+    sec = SECTIONS["formats"]
+    await message.answer(sec["text"], reply_markup=section_kb(sec["buttons"]))
+
+
+@dp.callback_query(F.data == "formats_new")
+async def formats_new(call: CallbackQuery):
+    await formats_command(call.message)
+    await call.answer()
+
+
+@dp.callback_query(F.data.startswith("f:"))
+async def open_section(call: CallbackQuery):
+    sec = SECTIONS.get(call.data[2:])
+    if sec:
+        await show_text(call, sec["text"], section_kb(sec["buttons"]))
+    await call.answer()
+
+
+@dp.callback_query(F.data.startswith("p:"))
+async def open_price(call: CallbackQuery):
+    key = call.data[2:]
+    price = PRICES.get(key)
+    if price:
+        await call.message.answer_photo(
+            BufferedInputFile(price_png(key), filename=f"price_{key}.png"),
+            caption=price["caption"],
+            reply_markup=section_kb(price["buttons"]),
+        )
+    await call.answer()
+
+
+@dp.callback_query(F.data == "results")
+async def back_to_results(call: CallbackQuery, state: FSMContext):
+    text = (await state.get_data()).get("result_text")
+    if text:
+        await show_text(call, text, result_kb())
+    else:
+        await show_text(call, "Результаты теста не сохранились. Пройди тест ещё раз, это займёт 10-15 минут.",
+                        kb([("🔄 Пройти тест", "restart")]))
+    await call.answer()
+
+
+def quiz_titles(key: str) -> str:
+    return "🗣️ Speaking Club" if key == "club" else SECTIONS[key]["title"]
+
+
+def quiz_pick(goal: str, style: str, load: str) -> list:
+    candidates = list(QUIZ_CANDIDATES[goal])
+    if goal == "speak" and style not in ("self", "selffb"):
+        candidates.remove("course_zero")  # курс для самостоятельного изучения
+    score = {k: QUIZ_WEIGHTS[style].get(k, 0) + QUIZ_WEIGHTS[load].get(k, 0) for k in candidates}
+    return sorted(candidates, key=lambda k: -score[k])[:3]
+
+
+@dp.callback_query((F.data == "q") | F.data.startswith("q:"))
+async def quiz(call: CallbackQuery):
+    answers = call.data.split(":")[1:]
+    if len(answers) < len(QUIZ):
+        question, options = QUIZ[len(answers)]
+        prefix = ":".join(["q"] + answers)
+        await show_text(call, f"💡 <b>Подбор формата · вопрос {len(answers) + 1} из {len(QUIZ)}</b>\n\n{question}",
+                        kb([(label, f"{prefix}:{value}") for label, value in options]))
+    else:
+        picks = quiz_pick(*answers)
+        items = "\n".join(f"{i}. <b>{quiz_titles(k)}</b>: {QUIZ_SHORT[k]}" for i, k in enumerate(picks, 1))
+        rows = [(quiz_titles(k), target_data(k)) for k in picks]
+        rows += [("📋 Все форматы", "f:formats"), ("🎁 Записаться на бесплатный урок", "book"),
+                 ("🔄 Пройти подбор заново", "q")]
+        await show_text(call, QUIZ_RESULT_TEXT.format(items=items), kb(rows))
+    await call.answer()
+
+
+# ---------- запись ----------
+
 @dp.callback_query(F.data == "book")
 async def book(call: CallbackQuery, state: FSMContext):
+    await state.update_data(interest="Бесплатный пробный урок")
     await state.set_state(Test.name)
     await call.message.answer("Отлично! Запишу тебя на бесплатный пробный урок. Как тебя зовут?")
+    await call.answer()
+
+
+@dp.callback_query(F.data.startswith("buy:"))
+async def buy(call: CallbackQuery, state: FSMContext):
+    product = BUY_NAMES.get(call.data[4:], "курс")
+    await state.update_data(interest=product)
+    await state.set_state(Test.name)
+    await call.message.answer(BUY_TEXT.format(product=product))
     await call.answer()
 
 
@@ -362,15 +491,17 @@ async def got_contact(message: Message, state: FSMContext):
         "уровень": data.get("level", ""),
         "баллы": data.get("score", ""),
         "цель": data.get("goal", ""),
+        "интерес": data.get("interest", ""),
     })
     await notify_admin(
         message.bot,
-        "🔥 <b>Новая заявка на урок!</b>\n\n"
+        "🔥 <b>Новая заявка!</b>\n\n"
         f"Имя: {html.escape(data.get('name', ''))}\n"
         f"Контакт: {html.escape(contact)}\n"
         f"Telegram: {user_label(user)}\n"
         f"Уровень: {data.get('level', '-')}\n{data.get('score', '')}\n"
-        f"Цель: {html.escape(data.get('goal', '-'))}",
+        f"Цель: {html.escape(data.get('goal', '-'))}\n"
+        f"Интересует: {html.escape(data.get('interest', '-'))}",
     )
     await state.set_state(Test.done)
     await message.answer(
@@ -386,7 +517,8 @@ async def stale_button(call: CallbackQuery):
 
 @dp.message()
 async def fallback(message: Message):
-    await message.answer("Чтобы пройти тест уровня английского, нажми /start")
+    await message.answer("Чтобы пройти тест уровня английского, нажми /start\n"
+                         "Форматы занятий и цены: /formats")
 
 
 async def main():
