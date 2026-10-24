@@ -51,7 +51,7 @@ rubric = ParagraphStyle("rubric", fontName="Bebas", fontSize=12, leading=13, tex
 level_big = ParagraphStyle("level_big", fontName="Bebas", fontSize=64, leading=58, textColor=CHOCOLATE)
 level_name = ParagraphStyle("level_name", fontName="Cormorant-SemiBold", fontSize=22, leading=25,
                             textColor=CHOCOLATE)
-skill_label = ParagraphStyle("skill_label", fontName="Bebas", fontSize=11, leading=12, textColor=TAUPE,
+skill_label = ParagraphStyle("skill_label", fontName="Bebas", fontSize=11, leading=12, textColor=CHOCOLATE,
                              alignment=TA_CENTER)
 skill_value = ParagraphStyle("skill_value", fontName="Bebas", fontSize=26, leading=26, textColor=CHOCOLATE,
                              alignment=TA_CENTER)
@@ -135,7 +135,7 @@ def skills_row(parts: dict) -> Table:
              ("TOPPADDING", (0, 0), (-1, -1), 10), ("BOTTOMPADDING", (0, 0), (-1, -1), 12),
              ("LEFTPADDING", (0, 0), (-1, -1), 8), ("RIGHTPADDING", (0, 0), (-1, -1), 8)]
     for i in range(0, len(row), 2):
-        style += [("BACKGROUND", (i, 0), (i, 0), IVORY), ("ROUNDEDCORNERS", [12, 12, 12, 12])]
+        style += [("BACKGROUND", (i, 0), (i, 0), ROSE), ("ROUNDEDCORNERS", [12, 12, 12, 12])]
     t.setStyle(TableStyle(style))
     return t
 
