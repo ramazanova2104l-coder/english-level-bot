@@ -11,13 +11,14 @@ from formats import PRICES, PROMO_ON_PRICES
 import brand
 
 FONTS = brand.FONTS
-BG = brand.ESPRESSO
-CARD = brand.PAPER
-ACCENT = brand.PEONY
-TEXT = brand.ESPRESSO
-LIGHT = brand.IVORY
+BG = brand.DARK           # бордовый фон
+CARD = brand.CARD         # карточки
+HIGHLIGHT = brand.HIGHLIGHT
+ACCENT = brand.ACCENT     # цены и рубрики
+TEXT = brand.INK
+LIGHT = brand.ON_DARK     # светлый текст на бордовом
 MUTED = brand.MUTED
-SOFT = "#CDBFB8"  # приглушённый светлый текст на тёмном фоне
+SOFT = "#D9C3BB"          # приглушённый светлый текст на бордовом
 
 W = 1080
 PAD = 72
@@ -45,23 +46,23 @@ def spaced(label: str) -> str:
     return " ".join(label.upper())
 
 
-def pill(draw, x, y, label, fill=ACCENT):
+def pill(draw, x, y, label, fill=LIGHT):
     fnt = font(brand.SANS_BOLD, 22)
     text = spaced(label)
     w = draw.textlength(text, font=fnt) + 56
     draw.rounded_rectangle([x, y, x + w, y + 52], radius=26, fill=fill)
-    draw.text((x + 28, y + 27), text, font=fnt, fill=TEXT, anchor="lm")
+    draw.text((x + 28, y + 27), text, font=fnt, fill=ACCENT, anchor="lm")
     return w
 
 
 def price_text(draw, right, cy, value):
     if value == "0":
-        draw.text((right, cy), "бесплатно", font=font(brand.SERIF_ITALIC, 40), fill=TEXT, anchor="rm")
+        draw.text((right, cy), "бесплатно", font=font(brand.HAND, 46), fill=ACCENT, anchor="rm")
         return
-    num, rub = font(brand.SERIF, 58), font(brand.SANS_SEMI, 32)
+    num, rub = font(brand.TITLE, 58), font(brand.SANS_SEMI, 32)
     rub_w = draw.textlength("₽", font=rub)
-    draw.text((right, cy + 2), "₽", font=rub, fill=TEXT, anchor="rm")
-    draw.text((right - rub_w - 12, cy), value, font=num, fill=TEXT, anchor="rm")
+    draw.text((right, cy + 2), "₽", font=rub, fill=ACCENT, anchor="rm")
+    draw.text((right - rub_w - 12, cy - 2), value, font=num, fill=ACCENT, anchor="rm")
 
 
 def layout(draw, data, dry=False):
@@ -70,11 +71,12 @@ def layout(draw, data, dry=False):
     if not dry:
         pill(draw, PAD, y, "price list")
     y += 52 + 36
-    title_f = font(brand.SERIF_ITALIC, 76)
-    for line in wrap(draw, data["title"], title_f, W - 2 * PAD):
+    title_f = font(brand.TITLE, 76)
+    for line in wrap(draw, data["title"].upper(), title_f, W - 2 * PAD):
         if not dry:
             draw.text((PAD, y), line, font=title_f, fill=LIGHT)
         y += 90
+    y += 14
     sub_f = font(brand.SANS, 27)
     for line in wrap(draw, data["subtitle"], sub_f, W - 2 * PAD):
         if not dry:
@@ -87,7 +89,7 @@ def layout(draw, data, dry=False):
     for row in data["rows"]:
         if row[0] == "group":
             if not dry:
-                draw.text((PAD + 6, y + 22), spaced(row[1]), font=group_f, fill=ACCENT)
+                draw.text((PAD + 6, y + 22), spaced(row[1]), font=group_f, fill=LIGHT)
             y += 64
             continue
         name, note, value, accent = row
@@ -95,7 +97,7 @@ def layout(draw, data, dry=False):
         note_lines = wrap(draw, note, note_f, text_w)
         h = 44 + 40 + 34 * len(note_lines) + 10
         if not dry:
-            draw.rounded_rectangle([PAD, y, W - PAD, y + h], radius=30, fill=ACCENT if accent else CARD)
+            draw.rounded_rectangle([PAD, y, W - PAD, y + h], radius=30, fill=HIGHLIGHT if accent else CARD)
             draw.text((PAD + 32, y + 30), name, font=name_f, fill=TEXT)
             for i, line in enumerate(note_lines):
                 draw.text((PAD + 32, y + 76 + 34 * i), line, font=note_f, fill=TEXT if accent else MUTED)
@@ -113,19 +115,19 @@ def layout(draw, data, dry=False):
         y += 30
         h = 124
         if not dry:
-            draw.rounded_rectangle([PAD, y, W - PAD, y + h], radius=30, outline=ACCENT, width=3)
+            draw.rounded_rectangle([PAD, y, W - PAD, y + h], radius=30, outline=LIGHT, width=3)
             draw.text((PAD + 32, y + 34), spaced("промокод на первый месяц"), font=font(brand.SANS_BOLD, 18),
-                      fill=ACCENT)
+                      fill=SOFT)
             draw.text((PAD + 32, y + 70), config.PROMO_TEXT, font=font(brand.SANS, 24), fill=LIGHT)
-            draw.text((W - PAD - 32, y + h / 2), config.PROMO_CODE, font=font(brand.SERIF, 52),
-                      fill=ACCENT, anchor="rm")
+            draw.text((W - PAD - 32, y + h / 2), config.PROMO_CODE, font=font(brand.TITLE, 56),
+                      fill=LIGHT, anchor="rm")
         y += h
 
     y += 56
     if not dry:
         draw.text((PAD, y + 14), spaced("@ramazanova_eng"), font=font(brand.SANS_SEMI, 20), fill=SOFT)
         draw.text((W - PAD, y + 10), f"with love, {config.TEACHER_NAME}", font=font(brand.HAND, 44),
-                  fill=ACCENT, anchor="rm")
+                  fill=LIGHT, anchor="rm")
     return y + 40 + PAD
 
 
