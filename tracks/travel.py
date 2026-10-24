@@ -2,57 +2,37 @@
 # Первый вариант ответа в каждом вопросе - правильный, бот перемешивает варианты сам.
 
 # ---- Часть 1. Грамматика и лексика ----
+# На каждый уровень 4 вопроса: 2 на грамматику и 2 на лексику ("lexis": True).
 GRAMMAR = {
     "A1": [
         {"text": "Excuse me, where ___ the train station?", "options": ["is", "are", "am", "be"]},
-        {"text": "I'd like ___ coffee, please.", "options": ["a", "an", "any", "many"]},
+        {"text": "I'd like to ___ a room for two nights.", "options": ["book", "take", "make", "do"], "lexis": True},
         {"text": "How ___ is this ticket?", "options": ["much", "many", "old", "far"]},
-        {"text": "Hello, we ___ a reservation for two nights.", "options": ["have", "has", "are", "is"]},
-        {"text": "The museum opens ___ 9 a.m.", "options": ["at", "in", "on", "to"]},
+        {"text": "Where can I buy a ___ for the bus?", "options": ["ticket", "bill", "key", "passport"], "lexis": True},
     ],
     "A2": [
         {"text": "Last year we ___ to Turkey.", "options": ["flew", "flied", "have flown", "fly"]},
+        {"text": "Our flight was ___ because of the bad weather.", "options": ["cancelled", "cancelling", "cancel", "cancels"], "lexis": True},
         {"text": "Excuse me, ___ I have the bill, please?", "options": ["could", "do", "am", "will"]},
-        {"text": "This hotel is ___ than the one we stayed in last year.",
-         "options": ["cheaper", "more cheap", "cheapest", "cheaply"]},
-        {"text": "We ___ to Paris next month. We've already bought the tickets.",
-         "options": ["are going", "go", "went", "goes"]},
-        {"text": "Our flight was ___ because of the bad weather.",
-         "options": ["cancelled", "cancelling", "cancel", "cancels"]},
+        {"text": "We need to ___ of the hotel before 11 a.m.", "options": ["check out", "check in", "get off", "take off"], "lexis": True},
     ],
     "B1": [
         {"text": "Have you ever ___ sushi in Japan?", "options": ["eaten", "ate", "eat", "eating"]},
-        {"text": "If you ___ the 10 o'clock train, you'll arrive by noon.",
-         "options": ["take", "will take", "took", "would take"]},
-        {"text": "Passengers ___ smoke anywhere on the plane.",
-         "options": ["mustn't", "don't have to", "needn't", "haven't"]},
-        {"text": "The hotel ___ we stayed was right next to the beach.",
-         "options": ["where", "which", "who", "what"]},
-        {"text": "We had to ___ our trip because my mother was ill.",
-         "options": ["put off", "put on", "put up", "put out"]},
+        {"text": "We had to ___ our trip because my mother was ill.", "options": ["put off", "put on", "put up", "put out"], "lexis": True},
+        {"text": "If you ___ the 10 o'clock train, you'll arrive by noon.", "options": ["take", "will take", "took", "would take"]},
+        {"text": "Don't forget to pack an ___: it might rain.", "options": ["umbrella", "sunscreen", "swimsuit", "sunglasses"], "lexis": True},
     ],
     "B2": [
-        {"text": "If we ___ earlier, we wouldn't have missed the flight.",
-         "options": ["had left", "left", "would leave", "have left"]},
-        {"text": "You'd better ___ your passport in the hotel safe.",
-         "options": ["leave", "to leave", "leaving", "left"]},
-        {"text": "By the time we got to the gate, the plane ___.",
-         "options": ["had already taken off", "already took off", "has already taken off", "was already taking off"]},
-        {"text": "I'm not used to ___ on the left side of the road.",
-         "options": ["driving", "drive", "drove", "be driving"]},
-        {"text": "The guide ___ us that the castle was closed for repairs.",
-         "options": ["informed", "said", "explained", "spoke"]},
+        {"text": "If we ___ earlier, we wouldn't have missed the flight.", "options": ["had left", "left", "would leave", "have left"]},
+        {"text": "The guide ___ us that the castle was closed for repairs.", "options": ["informed", "said", "explained", "spoke"], "lexis": True},
+        {"text": "By the time we got to the gate, the plane ___.", "options": ["had already taken off", "already took off", "has already taken off", "was already taking off"]},
+        {"text": "The flight was fully ___, so we couldn't get seats.", "options": ["booked", "closed", "filled", "spent"], "lexis": True},
     ],
     "C1": [
-        {"text": "Not only ___ our luggage, but they also overbooked our flight.",
-         "options": ["did they lose", "they lost", "lost they", "they did lose"]},
-        {"text": "The hotel was nothing ___ the photos on the website. It was far worse.",
-         "options": ["like", "as", "than", "similar"]},
-        {"text": "Should you ___ any problems during your stay, please contact reception.",
-         "options": ["have", "had", "having", "to have"]},
-        {"text": "The old town is well worth ___.", "options": ["visiting", "to visit", "visit", "visited"]},
-        {"text": "Travellers are advised to ___ caution when using public transport late at night.",
-         "options": ["exercise", "do", "make", "give"]},
+        {"text": "Not only ___ our luggage, but they also overbooked our flight.", "options": ["did they lose", "they lost", "lost they", "they did lose"]},
+        {"text": "Travellers are advised to ___ caution when using public transport late at night.", "options": ["exercise", "do", "make", "give"], "lexis": True},
+        {"text": "Should you ___ any problems during your stay, please contact reception.", "options": ["have", "had", "having", "to have"]},
+        {"text": "The view from the top of the mountain was absolutely ___.", "options": ["breathtaking", "breathless", "breathing", "breathy"], "lexis": True},
     ],
 }
 
@@ -61,7 +41,7 @@ TASKS = {
     "listen_easy": {
         "kind": "listening",
         "voice": "af_bella", "speed": 0.88,
-        "intro": "🎧 <b>Аудирование</b>\n\nПослушай объявление в аэропорту и ответь на 4 вопроса. "
+        "intro": "🎧 <b>Часть 2. Аудирование</b>\n\nПослушай объявление в аэропорту и ответь на 4 вопроса. "
                  "Можно слушать несколько раз.",
         "script": (
             "Attention, please. This is an announcement for passengers on flight B A two seven four to London. "
@@ -83,7 +63,7 @@ TASKS = {
     "listen_hard": {
         "kind": "listening",
         "voice": "af_heart", "speed": 1.0,
-        "intro": "🎧 <b>Аудирование</b>\n\nТревел-блогер рассказывает о своих "
+        "intro": "🎧 <b>Часть 2. Аудирование</b>\n\nТревел-блогер рассказывает о своих "
                  "поездках в обычном темпе. Ответь на 4 вопроса.",
         "script": (
             "People often ask me how I manage to travel so much on such a small budget. The honest answer is that "
@@ -111,7 +91,7 @@ TASKS = {
     },
     "read_easy": {
         "kind": "reading",
-        "intro": "📖 <b>Чтение</b>\n\nПрочитай информацию об отеле и ответь на 4 вопроса.",
+        "intro": "📖 <b>Часть 3. Чтение</b>\n\nПрочитай информацию об отеле и ответь на 4 вопроса.",
         "text": (
             "<b>Sea View Hotel</b>\n"
             "\n"
@@ -134,7 +114,7 @@ TASKS = {
     },
     "read_hard": {
         "kind": "reading",
-        "intro": "📖 <b>Чтение</b>\n\nПрочитай статью и ответь на 4 вопроса.",
+        "intro": "📖 <b>Часть 3. Чтение</b>\n\nПрочитай статью и ответь на 4 вопроса.",
         "text": (
             "<b>The Price of Popularity</b>\n"
             "\n"

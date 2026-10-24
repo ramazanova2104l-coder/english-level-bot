@@ -2,48 +2,37 @@
 # Первый вариант ответа в каждом вопросе - правильный, бот перемешивает варианты сам.
 
 # ---- Часть 1. Грамматика и лексика ----
+# На каждый уровень 4 вопроса: 2 на грамматику и 2 на лексику ("lexis": True).
 GRAMMAR = {
     "A1": [
         {"text": "I ___ ten years old.", "options": ["am", "is", "are", "be"]},
+        {"text": "A ___ can fly.", "options": ["bird", "fish", "dog", "cat"], "lexis": True},
         {"text": "My cat ___ fish.", "options": ["likes", "like", "liking", "is like"]},
-        {"text": "Look at ___ birds in the tree!", "options": ["those", "that", "this", "it"]},
-        {"text": "We ___ English on Mondays.", "options": ["have", "has", "having", "is have"]},
-        {"text": "Can you ___ a bike?", "options": ["ride", "rides", "riding", "to ride"]},
+        {"text": "I wear a ___ on my head when it's cold.", "options": ["hat", "shoe", "sock", "skirt"], "lexis": True},
     ],
     "A2": [
         {"text": "Yesterday I ___ my grandma.", "options": ["visited", "visit", "visits", "visiting"]},
+        {"text": "I brush my ___ every morning.", "options": ["teeth", "hands", "feet", "eyes"], "lexis": True},
         {"text": "An elephant is ___ than a horse.", "options": ["bigger", "more big", "biggest", "bigest"]},
-        {"text": "Shh! The baby ___.", "options": ["is sleeping", "sleeps", "sleep", "slept"]},
-        {"text": "There ___ any bread left.", "options": ["isn't", "aren't", "not", "don't"]},
-        {"text": "We're going ___ the zoo on Saturday.", "options": ["to", "at", "in", "on"]},
+        {"text": "My favourite ___ at school is maths.", "options": ["subject", "teacher", "classroom", "break"], "lexis": True},
     ],
     "B1": [
         {"text": "I've ___ finished my homework!", "options": ["just", "yet", "ever", "since"]},
-        {"text": "If you ___ hard, you'll pass the test.",
-         "options": ["study", "will study", "studied", "studies"]},
-        {"text": "Our school ___ in 1975.", "options": ["was built", "built", "is built", "has built"]},
-        {"text": "I'm good ___ drawing.", "options": ["at", "in", "on", "for"]},
-        {"text": "You ___ run in the corridor! It's dangerous.",
-         "options": ["mustn't", "don't have to", "needn't", "doesn't"]},
+        {"text": "I'm good ___ drawing.", "options": ["at", "in", "on", "for"], "lexis": True},
+        {"text": "If you ___ hard, you'll pass the test.", "options": ["study", "will study", "studied", "studies"]},
+        {"text": "I'm ___ of spiders!", "options": ["scared", "keen", "interested", "good"], "lexis": True},
     ],
     "B2": [
         {"text": "This is the boy ___ dog bit me.", "options": ["whose", "who", "which", "that"]},
-        {"text": "He asked me ___ I liked pizza.", "options": ["if", "that", "what", "do"]},
-        {"text": "We'd better ___ now, or we'll miss the bus.",
-         "options": ["leave", "to leave", "leaving", "left"]},
-        {"text": "I've been learning English ___ I was six.", "options": ["since", "for", "from", "when"]},
-        {"text": "If I had studied harder, I ___ the test.",
-         "options": ["would have passed", "would pass", "passed", "will pass"]},
+        {"text": "Can you ___ after my cat while I'm on holiday?", "options": ["look", "take", "care", "see"], "lexis": True},
+        {"text": "If I had studied harder, I ___ the test.", "options": ["would have passed", "would pass", "passed", "will pass"]},
+        {"text": "My little brother always ___ the truth.", "options": ["tells", "says", "speaks", "talks"], "lexis": True},
     ],
     "C1": [
-        {"text": "Never ___ such a beautiful sunset.",
-         "options": ["have I seen", "I have seen", "I saw", "saw I"]},
+        {"text": "Never ___ such a beautiful sunset.", "options": ["have I seen", "I have seen", "I saw", "saw I"]},
+        {"text": "Our teacher made us ___ the poem by heart.", "options": ["learn", "to learn", "learning", "learned"], "lexis": True},
         {"text": "I'm not used ___ up so early.", "options": ["to getting", "to get", "getting", "get"]},
-        {"text": "She's ___ the best student in our class.", "options": ["by far", "very", "much more", "so"]},
-        {"text": "Our teacher made us ___ the poem by heart.",
-         "options": ["learn", "to learn", "learning", "learned"]},
-        {"text": "It's no use ___ about the test now. It's over.",
-         "options": ["worrying", "to worry", "worry", "worried"]},
+        {"text": "Our trip was ___ because of the storm.", "options": ["called off", "called up", "called back", "called in"], "lexis": True},
     ],
 }
 
@@ -52,7 +41,7 @@ TASKS = {
     "listen_easy": {
         "kind": "listening",
         "voice": "am_puck", "speed": 0.85,
-        "intro": "🎧 <b>Аудирование</b>\n\nПослушай рассказ мальчика о его собаке и ответь на 4 вопроса. "
+        "intro": "🎧 <b>Часть 2. Аудирование</b>\n\nПослушай рассказ мальчика о его собаке и ответь на 4 вопроса. "
                  "Можно слушать несколько раз.",
         "script": (
             "Hi! My name's Ben, and I'm eleven. I want to tell you about my dog, Max. "
@@ -74,7 +63,7 @@ TASKS = {
     "listen_hard": {
         "kind": "listening",
         "voice": "af_heart", "speed": 1.0,
-        "intro": "🎧 <b>Аудирование</b>\n\nШкольница рассказывает о своём "
+        "intro": "🎧 <b>Часть 2. Аудирование</b>\n\nШкольница рассказывает о своём "
                  "научном проекте. Ответь на 4 вопроса.",
         "script": (
             "For our science project this year, my friend Lily and I decided to find out whether plants grow "
@@ -102,7 +91,7 @@ TASKS = {
     },
     "read_easy": {
         "kind": "reading",
-        "intro": "📖 <b>Чтение</b>\n\nПрочитай текст и ответь на 4 вопроса.",
+        "intro": "📖 <b>Часть 3. Чтение</b>\n\nПрочитай текст и ответь на 4 вопроса.",
         "text": (
             "<b>My Best Friend</b>\n"
             "\n"
@@ -124,7 +113,7 @@ TASKS = {
     },
     "read_hard": {
         "kind": "reading",
-        "intro": "📖 <b>Чтение</b>\n\nПрочитай историю и ответь на 4 вопроса.",
+        "intro": "📖 <b>Часть 3. Чтение</b>\n\nПрочитай историю и ответь на 4 вопроса.",
         "text": (
             "<b>The Boy Who Harnessed the Wind</b>\n"
             "\n"

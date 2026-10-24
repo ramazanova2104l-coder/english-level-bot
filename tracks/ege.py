@@ -15,45 +15,28 @@ HEADINGS = [
 ]
 
 # ---- Часть 1. Грамматика и лексика ----
+# На каждый уровень 4 вопроса: 2 на грамматику и 2 на лексику ("lexis": True).
 # A1 и A2 общие с ОГЭ, B1-C1 свои, в формате заданий 19-36 ЕГЭ.
 GRAMMAR = {
     "A1": OGE_GRAMMAR["A1"],
     "A2": OGE_GRAMMAR["A2"],
     "B1": [
-        {"text": "The first Olympic Games ___ in Greece. (HOLD)",
-         "options": ["were held", "held", "have held", "was held"]},
-        {"text": "If I were you, I ___ this offer. (ACCEPT)",
-         "options": ["would accept", "will accept", "accepted", "would have accepted"]},
-        {"text": "My grandmother has never ___ abroad. (TRAVEL)",
-         "options": ["travelled", "travel", "travels", "travelling"]},
-        {"text": "It was the ___ day of my life! (HAPPY)",
-         "options": ["happiest", "happier", "most happy", "happyest"]},
-        {"text": "He felt ___ because nobody listened to him. (HAPPY)",
-         "options": ["unhappy", "happiness", "happily", "unhappily"]},
+        {"text": "The first Olympic Games ___ in Greece. (HOLD)", "options": ["were held", "held", "have held", "was held"]},
+        {"text": "He felt ___ because nobody listened to him. (HAPPY)", "options": ["unhappy", "happiness", "happily", "unhappily"], "lexis": True},
+        {"text": "If I were you, I ___ this offer. (ACCEPT)", "options": ["would accept", "will accept", "accepted", "would have accepted"]},
+        {"text": "My grandmother is a very ___ woman. (WISDOM)", "options": ["wise", "wisdom", "wisely", "wiser"], "lexis": True},
     ],
     "B2": [
-        {"text": "The teacher asked us what we ___ during the holidays. (DO)",
-         "options": ["had done", "will do", "have done", "do"]},
-        {"text": "Nobody expected such a ___ result. (DISAPPOINT)",
-         "options": ["disappointing", "disappointed", "disappointment", "disappoint"]},
-        {"text": "The ___ of the village were very friendly. (INHABIT)",
-         "options": ["inhabitants", "inhabitation", "inhabited", "inhabits"]},
-        {"text": "His story was so ___ that nobody believed it. (BELIEVE)",
-         "options": ["unbelievable", "believable", "unbelieving", "disbelief"]},
-        {"text": "By 2035, scientists ___ a cure for this disease. (FIND)",
-         "options": ["will have found", "will find", "find", "have found"]},
+        {"text": "The teacher asked us what we ___ during the holidays. (DO)", "options": ["had done", "will do", "have done", "do"]},
+        {"text": "Nobody expected such a ___ result. (DISAPPOINT)", "options": ["disappointing", "disappointed", "disappointment", "disappoint"], "lexis": True},
+        {"text": "By 2035, scientists ___ a cure for this disease. (FIND)", "options": ["will have found", "will find", "find", "have found"]},
+        {"text": "The ___ of the village were very friendly. (INHABIT)", "options": ["inhabitants", "inhabitation", "inhabited", "inhabits"], "lexis": True},
     ],
     "C1": [
-        {"text": "Under no circumstances ___ use your phone during the exam.",
-         "options": ["should you", "you should", "you can", "can't you"]},
-        {"text": "His argument doesn't ___ water: there's no evidence for it.",
-         "options": ["hold", "keep", "carry", "take"]},
-        {"text": "They had to ___ the trip until the weather improved.",
-         "options": ["put off", "take off", "set off", "call off"]},
-        {"text": "She ___ a great impression on the examiners.",
-         "options": ["made", "did", "gave", "took"]},
-        {"text": "It's high time you ___ seriously about your future.",
-         "options": ["started thinking", "start thinking", "to start thinking", "have started thinking"]},
+        {"text": "Under no circumstances ___ use your phone during the exam.", "options": ["should you", "you should", "you can", "can't you"]},
+        {"text": "His argument doesn't ___ water: there's no evidence for it.", "options": ["hold", "keep", "carry", "take"], "lexis": True},
+        {"text": "It's high time you ___ seriously about your future.", "options": ["started thinking", "start thinking", "to start thinking", "have started thinking"]},
+        {"text": "She ___ a great impression on the examiners.", "options": ["made", "did", "gave", "took"], "lexis": True},
     ],
 }
 
@@ -63,7 +46,7 @@ TASKS = {
         "kind": "listening",
         # Диалог: каждая строка начинается с имени, у каждого свой голос
         "voices": {"Tom": "am_michael", "Kate": "af_heart"}, "speed": 0.95,
-        "intro": "🎧 <b>Аудирование</b> (формат ЕГЭ, задание 2)\n\nПослушай диалог. "
+        "intro": "🎧 <b>Часть 2. Аудирование</b> (формат ЕГЭ, задание 2)\n\nПослушай диалог. "
                  "Для каждого утверждения выбери: <b>True</b> (верно), <b>False</b> (неверно) "
                  "или <b>Not stated</b> (в разговоре не сказано).",
         "script": (
@@ -90,7 +73,7 @@ TASKS = {
     "listen_hard": {
         "kind": "listening",
         "voices": {"Interviewer": "af_bella", "Daniel": "am_adam"}, "speed": 1.0,
-        "intro": "🎧 <b>Аудирование</b> (формат ЕГЭ, задания 3-9)\n\nИнтервью с переводчиком. "
+        "intro": "🎧 <b>Часть 2. Аудирование</b> (формат ЕГЭ, задания 3-9)\n\nИнтервью с переводчиком. "
                  "Выбери правильный ответ на каждый из 4 вопросов.",
         "script": (
             "Interviewer: Today I'm talking to Daniel Hart, a professional translator who works with eight languages. "
@@ -130,7 +113,7 @@ TASKS = {
     },
     "read_easy": {
         "kind": "reading",
-        "intro": "📖 <b>Чтение</b> (формат ЕГЭ, задание 10)\n\nПрочитай текст и подбери "
+        "intro": "📖 <b>Часть 3. Чтение</b> (формат ЕГЭ, задание 10)\n\nПрочитай текст и подбери "
                  "к каждому абзацу (A-D) подходящий заголовок. Один заголовок лишний.",
         "text": (
             "<b>Teenagers and Part-time Jobs</b>\n"
@@ -156,7 +139,7 @@ TASKS = {
     },
     "read_hard": {
         "kind": "reading",
-        "intro": "📖 <b>Чтение</b> (формат ЕГЭ, задания 12-18)\n\nПрочитай статью "
+        "intro": "📖 <b>Часть 3. Чтение</b> (формат ЕГЭ, задания 12-18)\n\nПрочитай статью "
                  "и выбери правильный ответ на каждый из 4 вопросов.",
         "text": (
             "<b>In Praise of Boredom</b>\n"

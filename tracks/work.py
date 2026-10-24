@@ -2,55 +2,37 @@
 # Первый вариант ответа в каждом вопросе - правильный, бот перемешивает варианты сам.
 
 # ---- Часть 1. Грамматика и лексика ----
+# На каждый уровень 4 вопроса: 2 на грамматику и 2 на лексику ("lexis": True).
 GRAMMAR = {
     "A1": [
         {"text": "I ___ a manager in a big company.", "options": ["am", "is", "are", "be"]},
+        {"text": "I have a ___ with my boss at 10 a.m.", "options": ["meeting", "lesson", "party", "holiday"], "lexis": True},
         {"text": "She ___ in an office in the city centre.", "options": ["works", "work", "working", "is work"]},
-        {"text": "What ___ you do? - I'm an engineer.", "options": ["do", "does", "are", "is"]},
-        {"text": "Our meeting is ___ Monday.", "options": ["on", "in", "at", "to"]},
-        {"text": "There ___ ten people in my team.", "options": ["are", "is", "be", "am"]},
+        {"text": "Please send me an ___ with the details.", "options": ["email", "office", "phone", "desk"], "lexis": True},
     ],
     "A2": [
         {"text": "I ___ an email to the client yesterday.", "options": ["sent", "send", "have sent", "sended"]},
-        {"text": "She's busy at the moment. She ___ to a customer.",
-         "options": ["is talking", "talks", "talk", "talked"]},
-        {"text": "Our new office is ___ than the old one.",
-         "options": ["bigger", "more big", "biggest", "more bigger"]},
-        {"text": "We don't have ___ time before the meeting.", "options": ["much", "many", "a lot", "few"]},
-        {"text": "I have ___ work this Saturday.", "options": ["to", "for", "at", "by"]},
+        {"text": "She ___ a lot of money in her new job.", "options": ["earns", "wins", "gains", "pays"], "lexis": True},
+        {"text": "She's busy at the moment. She ___ to a customer.", "options": ["is talking", "talks", "talk", "talked"]},
+        {"text": "Our company ___ 200 people.", "options": ["employs", "works", "makes", "does"], "lexis": True},
     ],
     "B1": [
         {"text": "I've worked for this company ___ 2019.", "options": ["since", "for", "from", "during"]},
-        {"text": "If the client ___ the contract, we'll start next week.",
-         "options": ["signs", "will sign", "signed", "would sign"]},
-        {"text": "The report ___ by Friday.",
-         "options": ["must be finished", "must finish", "must finishing", "must to finish"]},
-        {"text": "Could you ___ me a favour and check this presentation?",
-         "options": ["do", "make", "give", "take"]},
-        {"text": "I'm responsible ___ the marketing team.", "options": ["for", "of", "about", "to"]},
+        {"text": "Could you ___ me a favour and check this presentation?", "options": ["do", "make", "give", "take"], "lexis": True},
+        {"text": "If the client ___ the contract, we'll start next week.", "options": ["signs", "will sign", "signed", "would sign"]},
+        {"text": "I'd like to ___ for the position of sales manager.", "options": ["apply", "ask", "request", "offer"], "lexis": True},
     ],
     "B2": [
-        {"text": "I wish I ___ that job offer last year.",
-         "options": ["had accepted", "accepted", "would accept", "have accepted"]},
-        {"text": "The project was a success, ___ the tight deadline.",
-         "options": ["despite", "although", "however", "even"]},
-        {"text": "She's been promoted, ___ means she'll have more responsibilities.",
-         "options": ["which", "that", "what", "who"]},
-        {"text": "I look forward to ___ from you.", "options": ["hearing", "hear", "heard", "be hearing"]},
-        {"text": "The meeting has been ___ until next Monday because the director is away.",
-         "options": ["postponed", "cancelled", "prevented", "avoided"]},
+        {"text": "I wish I ___ that job offer last year.", "options": ["had accepted", "accepted", "would accept", "have accepted"]},
+        {"text": "The meeting has been ___ until next Monday because the director is away.", "options": ["postponed", "cancelled", "prevented", "avoided"], "lexis": True},
+        {"text": "She's been promoted, ___ means she'll have more responsibilities.", "options": ["which", "that", "what", "who"]},
+        {"text": "We must ___ the deadline, or the client will be unhappy.", "options": ["meet", "catch", "win", "follow"], "lexis": True},
     ],
     "C1": [
-        {"text": "Under no circumstances ___ confidential information with third parties.",
-         "options": ["should employees share", "employees should share", "should share employees", "employees share"]},
-        {"text": "The company's profits ___ considerably over the last quarter.",
-         "options": ["have risen", "have raised", "have arisen", "have rised"]},
-        {"text": "We're looking for someone who can ___ the initiative and work independently.",
-         "options": ["take", "make", "get", "do"]},
-        {"text": "Had the market not collapsed, the merger ___ ahead.",
-         "options": ["would have gone", "had gone", "went", "will have gone"]},
-        {"text": "Her proposal was met with ___ approval from the board.",
-         "options": ["unanimous", "unanimously", "unanimity", "unanimousness"]},
+        {"text": "Under no circumstances ___ confidential information with third parties.", "options": ["should employees share", "employees should share", "should share employees", "employees share"]},
+        {"text": "We're looking for someone who can ___ the initiative and work independently.", "options": ["take", "make", "get", "do"], "lexis": True},
+        {"text": "Had the market not collapsed, the merger ___ ahead.", "options": ["would have gone", "had gone", "went", "will have gone"]},
+        {"text": "Her proposal was met with ___ approval from the board.", "options": ["unanimous", "unanimously", "unanimity", "unanimousness"], "lexis": True},
     ],
 }
 
@@ -59,7 +41,7 @@ TASKS = {
     "listen_easy": {
         "kind": "listening",
         "voice": "am_michael", "speed": 0.88,
-        "intro": "🎧 <b>Аудирование</b>\n\nПослушай голосовое сообщение от партнёра "
+        "intro": "🎧 <b>Часть 2. Аудирование</b>\n\nПослушай голосовое сообщение от партнёра "
                  "и ответь на 4 вопроса. Можно слушать несколько раз.",
         "script": (
             "Hello, this is David Green from Northstar Logistics. I'm calling about our meeting on Tuesday. "
@@ -82,7 +64,7 @@ TASKS = {
     "listen_hard": {
         "kind": "listening",
         "voice": "af_heart", "speed": 1.0,
-        "intro": "🎧 <b>Аудирование</b>\n\nРуководитель делится опытом "
+        "intro": "🎧 <b>Часть 2. Аудирование</b>\n\nРуководитель делится опытом "
                  "в обычном темпе. Ответь на 4 вопроса.",
         "script": (
             "One of the biggest mistakes I see new managers make is assuming that their job is to have all the "
@@ -109,7 +91,7 @@ TASKS = {
     },
     "read_easy": {
         "kind": "reading",
-        "intro": "📖 <b>Чтение</b>\n\nПрочитай рабочее письмо и ответь на 4 вопроса.",
+        "intro": "📖 <b>Часть 3. Чтение</b>\n\nПрочитай рабочее письмо и ответь на 4 вопроса.",
         "text": (
             "Hi team,\n"
             "\n"
@@ -136,7 +118,7 @@ TASKS = {
     },
     "read_hard": {
         "kind": "reading",
-        "intro": "📖 <b>Чтение</b>\n\nПрочитай статью и ответь на 4 вопроса.",
+        "intro": "📖 <b>Часть 3. Чтение</b>\n\nПрочитай статью и ответь на 4 вопроса.",
         "text": (
             "<b>Is the Office Dead?</b>\n"
             "\n"

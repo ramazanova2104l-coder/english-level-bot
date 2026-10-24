@@ -2,54 +2,37 @@
 # Первый вариант ответа в каждом вопросе - правильный, бот перемешивает варианты сам.
 
 # ---- Часть 1. Грамматика и лексика ----
+# На каждый уровень 4 вопроса: 2 на грамматику и 2 на лексику ("lexis": True).
 GRAMMAR = {
     "A1": [
         {"text": "My sister ___ two children.", "options": ["has", "have", "is", "are"]},
-        {"text": "___ is your name?", "options": ["What", "Who", "Where", "How"]},
+        {"text": "I'm hungry. Let's ___ lunch.", "options": ["have", "make", "do", "take"], "lexis": True},
         {"text": "They ___ from Spain.", "options": ["are", "is", "am", "be"]},
-        {"text": "I usually ___ up at 7 o'clock.", "options": ["get", "gets", "getting", "got"]},
-        {"text": "I have ___ apple and a banana.", "options": ["an", "a", "some", "any"]},
+        {"text": "My father's mother is my ___.", "options": ["grandmother", "aunt", "sister", "cousin"], "lexis": True},
     ],
     "A2": [
         {"text": "We ___ to Italy last summer.", "options": ["went", "have gone", "go", "are going"]},
-        {"text": "She can't come to the phone. She ___ a shower.",
-         "options": ["is having", "has", "have", "had"]},
-        {"text": "This is the ___ film I've ever seen.",
-         "options": ["best", "better", "most good", "goodest"]},
-        {"text": "There isn't ___ milk in the fridge.", "options": ["any", "some", "many", "a"]},
-        {"text": "I'm very ___ in history, so I often visit museums.",
-         "options": ["interested", "interesting", "interest", "interests"]},
+        {"text": "I'm very ___ in history, so I often visit museums.", "options": ["interested", "interesting", "interest", "interests"], "lexis": True},
+        {"text": "She can't come to the phone. She ___ a shower.", "options": ["is having", "has", "have", "had"]},
+        {"text": "Can you ___ me the way to the station?", "options": ["tell", "say", "speak", "talk"], "lexis": True},
     ],
     "B1": [
         {"text": "I've lived here ___ five years.", "options": ["for", "since", "during", "from"]},
-        {"text": "If I ___ more money, I would buy a car.",
-         "options": ["had", "have", "will have", "would have"]},
-        {"text": "A new hospital ___ in our town next year.",
-         "options": ["will be built", "will build", "is building", "builds"]},
-        {"text": "I'm looking forward ___ you.",
-         "options": ["to seeing", "to see", "seeing", "for seeing"]},
-        {"text": "You ___ wear a uniform at our school. It's optional.",
-         "options": ["don't have to", "mustn't", "can't", "haven't"]},
+        {"text": "Could you ___ me a favour?", "options": ["do", "make", "give", "take"], "lexis": True},
+        {"text": "If I ___ more money, I would buy a car.", "options": ["had", "have", "will have", "would have"]},
+        {"text": "I can't ___ my keys anywhere.", "options": ["find", "look", "search", "see"], "lexis": True},
     ],
     "B2": [
-        {"text": "I'd rather you ___ smoke in the house.", "options": ["didn't", "don't", "won't", "not"]},
-        {"text": "By next June, I ___ here for ten years.",
-         "options": ["will have worked", "will work", "am working", "have worked"]},
+        {"text": "By next June, I ___ here for ten years.", "options": ["will have worked", "will work", "am working", "have worked"]},
+        {"text": "I can't ___ up with this noise any longer.", "options": ["put", "take", "get", "make"], "lexis": True},
         {"text": "She denied ___ the money.", "options": ["taking", "to take", "take", "to taking"]},
-        {"text": "Despite ___ tired, he kept working.", "options": ["being", "he was", "to be", "be"]},
-        {"text": "I can't ___ up with this noise any longer.", "options": ["put", "take", "get", "make"]},
+        {"text": "She has a great ___ of humour.", "options": ["sense", "feeling", "mind", "taste"], "lexis": True},
     ],
     "C1": [
-        {"text": "Little ___ that the police were watching him.",
-         "options": ["did he know", "he knew", "he did know", "knew he"]},
-        {"text": "Had I known about the problem, I ___ something.",
-         "options": ["would have done", "had done", "did", "will have done"]},
-        {"text": "The plan was rejected on the ___ that it was too expensive.",
-         "options": ["grounds", "reasons", "terms", "causes"]},
-        {"text": "She's ___ the best candidate we've interviewed.",
-         "options": ["by far", "very", "much more", "far more"]},
-        {"text": "Scarcely had we sat down ___ the phone rang.",
-         "options": ["when", "than", "that", "then"]},
+        {"text": "Little ___ that the police were watching him.", "options": ["did he know", "he knew", "he did know", "knew he"]},
+        {"text": "The plan was rejected on the ___ that it was too expensive.", "options": ["grounds", "reasons", "terms", "causes"], "lexis": True},
+        {"text": "Had I known about the problem, I ___ something.", "options": ["would have done", "had done", "did", "will have done"]},
+        {"text": "His argument doesn't ___ water: there's no evidence for it.", "options": ["hold", "keep", "carry", "bear"], "lexis": True},
     ],
 }
 
@@ -58,7 +41,7 @@ TASKS = {
     "listen_easy": {
         "kind": "listening",
         "voice": "af_bella", "speed": 0.85,
-        "intro": "🎧 <b>Аудирование</b>\n\nПослушай голосовое сообщение и ответь на 4 вопроса. "
+        "intro": "🎧 <b>Часть 2. Аудирование</b>\n\nПослушай голосовое сообщение и ответь на 4 вопроса. "
                  "Можно слушать несколько раз.",
         "script": (
             "Hi Sam, it's Maria. I'm calling about Saturday. I'm really sorry, but I can't meet you at six, "
@@ -83,7 +66,7 @@ TASKS = {
     "listen_hard": {
         "kind": "listening",
         "voice": "af_heart", "speed": 1.0,
-        "intro": "🎧 <b>Аудирование</b>\n\nОтрывок из подкаста в обычном темпе. "
+        "intro": "🎧 <b>Часть 2. Аудирование</b>\n\nОтрывок из подкаста в обычном темпе. "
                  "Ответь на 4 вопроса.",
         "script": (
             "A lot of people assume that the key to learning a language is talent. You've either got it or you "
@@ -114,7 +97,7 @@ TASKS = {
     },
     "read_easy": {
         "kind": "reading",
-        "intro": "📖 <b>Чтение</b>\n\nПрочитай короткую статью и ответь на 4 вопроса.",
+        "intro": "📖 <b>Часть 3. Чтение</b>\n\nПрочитай короткую статью и ответь на 4 вопроса.",
         "text": (
             "<b>Little Free Libraries</b>\n"
             "\n"
@@ -140,7 +123,7 @@ TASKS = {
     },
     "read_hard": {
         "kind": "reading",
-        "intro": "📖 <b>Чтение</b>\n\nПрочитай его и ответь на 4 вопроса.",
+        "intro": "📖 <b>Часть 3. Чтение</b>\n\nПрочитай его и ответь на 4 вопроса.",
         "text": (
             "<b>The Myth of Multitasking</b>\n"
             "\n"

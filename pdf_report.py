@@ -18,21 +18,21 @@ from recommendations import COMMON_ROUTINE_NOTE, RECOMMENDATIONS
 from vocabulary import VOCAB
 from tracks import TRACKS
 
-# Фирменный стиль @ramazanova_eng (как в визуальной системе публикаций)
-CREAM = colors.HexColor("#F8F2EE")      # фон страницы
-IVORY = colors.HexColor("#FFFDFB")      # карточки
-ROSE = colors.HexColor("#D99BB3")       # пилюли-рубрики и акцентная плашка
-SAGE = colors.HexColor("#A6AD96")       # маркеры, «правильно»
-CHOCOLATE = colors.HexColor("#42291F")  # заголовки и текст
-TAUPE = colors.HexColor("#A69B94")      # подписи, ник
+import brand
 
-FONTS = Path(__file__).with_name("fonts")
-for name, file in [("Montserrat", "Montserrat_400Regular.ttf"), ("Montserrat-Medium", "Montserrat_500Medium.ttf"),
-                   ("Montserrat-SemiBold", "Montserrat_600SemiBold.ttf"),
-                   ("Cormorant", "CormorantGaramond_500Medium_Italic.ttf"),
-                   ("Cormorant-SemiBold", "CormorantGaramond_600SemiBold_Italic.ttf"),
-                   ("Bebas", "BebasNeue_400Regular.ttf")]:
-    pdfmetrics.registerFont(TTFont(name, str(FONTS / file)))
+# Фирменный стиль @ramazanova_eng (цвета и шрифты в brand.py)
+IVORY = colors.HexColor(brand.IVORY)        # фон страницы
+PAPER = colors.HexColor(brand.PAPER)        # карточки
+PEONY = colors.HexColor(brand.PEONY)        # пилюли-рубрики и акцентные плашки
+WINE = colors.HexColor(brand.WINE)          # маркеры и рукописные подписи
+ESPRESSO = colors.HexColor(brand.ESPRESSO)  # заголовки, текст, тёмные блоки
+MUTED = colors.HexColor(brand.MUTED)        # подписи, ник
+
+for name, file in [("Montserrat", brand.SANS), ("Montserrat-Medium", brand.SANS_MED),
+                   ("Montserrat-SemiBold", brand.SANS_SEMI), ("Montserrat-Bold", brand.SANS_BOLD),
+                   ("Playfair", brand.SERIF), ("Playfair-Italic", brand.SERIF_ITALIC),
+                   ("Playfair-SemiItalic", brand.SERIF_ITALIC_SEMI), ("Caveat", brand.HAND)]:
+    pdfmetrics.registerFont(TTFont(name, str(brand.FONTS / file)))
 pdfmetrics.registerFontFamily("Montserrat", normal="Montserrat", bold="Montserrat-SemiBold",
                               italic="Montserrat", boldItalic="Montserrat-SemiBold")
 
@@ -40,58 +40,65 @@ PAGE_W, PAGE_H = A4
 MARGIN = 18 * mm
 CONTENT_W = PAGE_W - 2 * MARGIN
 
-text = ParagraphStyle("text", fontName="Montserrat", fontSize=9.5, leading=14.5, textColor=CHOCOLATE)
-note = ParagraphStyle("note", parent=text, fontSize=8.5, leading=12.5, textColor=TAUPE)
+text = ParagraphStyle("text", fontName="Montserrat", fontSize=9.5, leading=14.5, textColor=ESPRESSO)
+note = ParagraphStyle("note", parent=text, fontSize=8.5, leading=12.5, textColor=MUTED)
 lead = ParagraphStyle("lead", parent=text, fontSize=10.5, leading=16)
-script_title = ParagraphStyle("script_title", fontName="Cormorant-SemiBold", fontSize=17, leading=20,
-                              textColor=CHOCOLATE)
-big_title = ParagraphStyle("big_title", fontName="Cormorant-SemiBold", fontSize=30, leading=33,
-                           textColor=CHOCOLATE)
-rubric = ParagraphStyle("rubric", fontName="Bebas", fontSize=12, leading=13, textColor=CHOCOLATE)
-level_big = ParagraphStyle("level_big", fontName="Bebas", fontSize=64, leading=58, textColor=CHOCOLATE)
-level_name = ParagraphStyle("level_name", fontName="Cormorant-SemiBold", fontSize=22, leading=25,
-                            textColor=CHOCOLATE)
-skill_label = ParagraphStyle("skill_label", fontName="Bebas", fontSize=11, leading=12, textColor=TAUPE,
+script_title = ParagraphStyle("script_title", fontName="Playfair-Italic", fontSize=16, leading=20,
+                              textColor=ESPRESSO)
+big_title = ParagraphStyle("big_title", fontName="Playfair-Italic", fontSize=30, leading=35,
+                           textColor=colors.HexColor(brand.IVORY))
+hand_light = ParagraphStyle("hand_light", fontName="Caveat", fontSize=20, leading=22, textColor=PEONY)
+hand_wine = ParagraphStyle("hand_wine", fontName="Caveat", fontSize=19, leading=21, textColor=WINE)
+rubric = ParagraphStyle("rubric", fontName="Montserrat-Bold", fontSize=7.5, leading=9, textColor=ESPRESSO)
+level_big = ParagraphStyle("level_big", fontName="Playfair", fontSize=58, leading=58, textColor=ESPRESSO)
+level_name = ParagraphStyle("level_name", fontName="Playfair-Italic", fontSize=21, leading=25,
+                            textColor=ESPRESSO)
+skill_label = ParagraphStyle("skill_label", fontName="Montserrat-Bold", fontSize=7.5, leading=9, textColor=ESPRESSO,
                              alignment=TA_CENTER)
-skill_value = ParagraphStyle("skill_value", fontName="Bebas", fontSize=26, leading=26, textColor=CHOCOLATE,
+skill_value = ParagraphStyle("skill_value", fontName="Playfair", fontSize=24, leading=26, textColor=ESPRESSO,
                              alignment=TA_CENTER)
-cta_title = ParagraphStyle("cta_title", fontName="Cormorant-SemiBold", fontSize=22, leading=25,
-                           textColor=CHOCOLATE, alignment=TA_CENTER)
-cta_text = ParagraphStyle("cta_text", parent=text, alignment=TA_CENTER)
-promo = ParagraphStyle("promo", fontName="Bebas", fontSize=30, leading=30, textColor=CHOCOLATE,
+cta_title = ParagraphStyle("cta_title", fontName="Playfair-Italic", fontSize=22, leading=26,
+                           textColor=colors.HexColor(brand.IVORY), alignment=TA_CENTER)
+cta_text = ParagraphStyle("cta_text", parent=text, alignment=TA_CENTER, textColor=colors.HexColor(brand.IVORY))
+promo = ParagraphStyle("promo", fontName="Playfair", fontSize=28, leading=30, textColor=ESPRESSO,
                        alignment=TA_CENTER)
 
 SKILL_EN = {"Грамматика и лексика": "GRAMMAR", "Аудирование": "LISTENING", "Чтение": "READING"}
 
 
+def spaced(label: str) -> str:
+    """Заглавные буквы с разрядкой, как в рубриках на референсах."""
+    return "&nbsp;".join(escape(label.upper()))
+
+
 def on_page(canvas, doc):
     canvas.saveState()
-    canvas.setFillColor(CREAM)
+    canvas.setFillColor(IVORY)
     canvas.rect(0, 0, PAGE_W, PAGE_H, stroke=0, fill=1)
-    canvas.setFont("Bebas", 10)
-    canvas.setFillColor(TAUPE)
-    canvas.drawString(MARGIN, 10 * mm, "@RAMAZANOVA_ENG")
+    canvas.setFont("Montserrat-SemiBold", 7.5)
+    canvas.setFillColor(MUTED)
+    canvas.drawString(MARGIN, 10 * mm, " ".join("@RAMAZANOVA_ENG"))
     canvas.drawRightString(PAGE_W - MARGIN, 10 * mm, f"{doc.page:02d}")
     canvas.restoreState()
 
 
-def pill(label: str, background=ROSE) -> Table:
-    """Пилюля-рубрика: английское слово Bebas Neue на розовом."""
-    width = pdfmetrics.stringWidth(label, "Bebas", 12) + 22
-    t = Table([[Paragraph(escape(label), rubric)]], colWidths=[width], rowHeights=[18])
+def pill(label: str, background=PEONY) -> Table:
+    """Пилюля-рубрика: английское слово заглавными с разрядкой на розовом."""
+    width = pdfmetrics.stringWidth(" ".join(label.upper()), "Montserrat-Bold", 7.5) + 24
+    t = Table([[Paragraph(spaced(label), rubric)]], colWidths=[width], rowHeights=[18])
     t.hAlign = "LEFT"
     t.setStyle(TableStyle([
         ("BACKGROUND", (0, 0), (-1, -1), background),
         ("ROUNDEDCORNERS", [9, 9, 9, 9]),
         ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
         ("LEFTPADDING", (0, 0), (-1, -1), 11), ("RIGHTPADDING", (0, 0), (-1, -1), 11),
-        ("TOPPADDING", (0, 0), (-1, -1), 1), ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
+        ("TOPPADDING", (0, 0), (-1, -1), 2), ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
     ]))
     return t
 
 
-def card(content: list, background=IVORY, padding=16) -> Table:
-    t = Table([[content]], colWidths=[CONTENT_W])
+def card(content: list, background=PAPER, padding=16, width=CONTENT_W) -> Table:
+    t = Table([[content]], colWidths=[width])
     t.setStyle(TableStyle([
         ("BACKGROUND", (0, 0), (-1, -1), background),
         ("ROUNDEDCORNERS", [14, 14, 14, 14]),
@@ -101,7 +108,7 @@ def card(content: list, background=IVORY, padding=16) -> Table:
     return t
 
 
-def bullets(items, marker_color=SAGE):
+def bullets(items, marker_color=WINE):
     return ListFlowable(
         [ListItem(Paragraph(escape(i), text), leftIndent=14, value="•") for i in items],
         bulletType="bullet", start="•", bulletColor=marker_color, bulletFontName="Montserrat-SemiBold",
@@ -131,13 +138,13 @@ def skills_row(parts: dict) -> Table:
     style = [("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
              ("TOPPADDING", (0, 0), (-1, -1), 10), ("BOTTOMPADDING", (0, 0), (-1, -1), 12)]
     for i in range(0, len(row), 2):
-        style += [("BACKGROUND", (i, 0), (i, 0), IVORY), ("ROUNDEDCORNERS", [12, 12, 12, 12])]
+        style += [("BACKGROUND", (i, 0), (i, 0), PEONY), ("ROUNDEDCORNERS", [12, 12, 12, 12])]
     t.setStyle(TableStyle(style))
     return t
 
 
 vocab_en = ParagraphStyle("vocab_en", parent=text, fontName="Montserrat-SemiBold")
-vocab_ru = ParagraphStyle("vocab_ru", parent=text, textColor=CHOCOLATE)
+vocab_ru = ParagraphStyle("vocab_ru", parent=text, textColor=ESPRESSO)
 
 
 def vocab_section(track: str, level_key: str) -> KeepTogether:
@@ -152,7 +159,7 @@ def vocab_section(track: str, level_key: str) -> KeepTogether:
              ("TOPPADDING", (0, 0), (-1, -1), 5), ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
              ("LEFTPADDING", (0, 0), (-1, -1), 8), ("RIGHTPADDING", (0, 0), (-1, -1), 8)]
     for i in range(0, len(rows), 2):
-        style.append(("BACKGROUND", (0, i), (-1, i), CREAM))
+        style.append(("BACKGROUND", (0, i), (-1, i), IVORY))
     t.setStyle(TableStyle(style))
     level_note = "фразы для уровня B1 и выше" if advanced else "фразы для уровней A1-A2"
     return KeepTogether([card([pill("USEFUL VOCABULARY"), Spacer(1, 6), Paragraph(escape(data["title"]), script_title),
@@ -175,7 +182,7 @@ def goal_body(track: str, goal: str, level_key: str) -> list:
     body.append(bullets(recs["tips"]))
     if recs.get("resources"):
         body += [Spacer(1, 8), Paragraph("<b>Материалы под твою цель</b>", text), Spacer(1, 3),
-                 bullets(recs["resources"], TAUPE)]
+                 bullets(recs["resources"], MUTED)]
     return body, recs["title"]
 
 
@@ -191,15 +198,21 @@ def build_pdf(level_key: str, level_title: str, description: str, user_name: str
     who = (f"{escape(user_name)}, " if user_name else "") + "это твой персональный план"
     goal_line = f" · цель: {escape(goal)}" if goal else ""
 
-    story = [
+    ivory_note = ParagraphStyle("ivory_note", parent=note, textColor=PEONY)
+    cover = card([
         pill("YOUR ENGLISH LEVEL"),
-        Spacer(1, 12),
-        Paragraph("Как учить английский<br/>на твоём уровне", big_title),
-        Spacer(1, 6),
-        Paragraph(who + goal_line, note),
         Spacer(1, 14),
+        Paragraph("Как учить английский<br/>на твоём уровне", big_title),
+        Spacer(1, 4),
+        Paragraph("your personal plan", hand_light),
+        Spacer(1, 8),
+        Paragraph(who + goal_line, ivory_note),
+    ], background=ESPRESSO, padding=20)
+    story = [
+        cover,
+        Spacer(1, 10),
         card([Table([[Paragraph(escape(code), level_big), Paragraph(escape(name), level_name)]],
-                    colWidths=[48 * mm, CONTENT_W - 48 * mm - 32],
+                    colWidths=[52 * mm, CONTENT_W - 52 * mm - 32],
                     style=[("VALIGN", (0, 0), (-1, -1), "BOTTOM"), ("LEFTPADDING", (0, 0), (-1, -1), 0)]),
               Spacer(1, 8), Paragraph(escape(description), lead)]),
         Spacer(1, 10),
@@ -214,21 +227,23 @@ def build_pdf(level_key: str, level_title: str, description: str, user_name: str
         section("DAILY PLAN", "План на день: 20-30 минут", [bullets(rec["routine"]), Spacer(1, 6),
                                                              Paragraph(escape(COMMON_ROUTINE_NOTE), note)]),
         section("RESOURCES", "Полезные материалы", [bullets(rec["resources"])]),
-        section("MISTAKES", "Частые ошибки на этом уровне", [bullets(rec["mistakes"], ROSE)]),
+        section("MISTAKES", "Частые ошибки на этом уровне", [bullets(rec["mistakes"], WINE)]),
         vocab_section(track, level_key),
         KeepTogether([card([
             Paragraph(f"Первый урок с {escape(config.TEACHER_NAME_INSTR)} бесплатно", cta_title),
             Spacer(1, 6),
             Paragraph(escape(config.PDF_OFFER_TEXT), cta_text),
-            Spacer(1, 8),
-            Paragraph("YOUR PROMO CODE", ParagraphStyle("pl", parent=skill_label, textColor=CHOCOLATE)),
-            Spacer(1, 4),
-            Paragraph(escape(config.PROMO_CODE), promo),
-            Spacer(1, 4),
-            Paragraph(escape(config.PROMO_TEXT), cta_text),
+            Spacer(1, 10),
+            card([Paragraph(spaced("your promo code"), skill_label), Spacer(1, 4),
+                  Paragraph(escape(config.PROMO_CODE), promo), Spacer(1, 2),
+                  Paragraph(escape(config.PROMO_TEXT), ParagraphStyle("pt", parent=text, alignment=TA_CENTER))],
+                 background=PEONY, padding=12, width=CONTENT_W - 36),
             Spacer(1, 10),
             Paragraph(f"Instagram: {escape(config.INSTAGRAM_URL.replace('https://', ''))}", cta_text),
-        ], background=ROSE, padding=16)]),
+            Spacer(1, 4),
+            Paragraph(f"with love, {escape(config.TEACHER_NAME)}",
+                      ParagraphStyle("sig", parent=hand_light, alignment=TA_CENTER)),
+        ], background=ESPRESSO, padding=18)]),
     ]
     doc.build(story, onFirstPage=on_page, onLaterPages=on_page)
     return buf.getvalue()

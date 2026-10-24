@@ -6,55 +6,37 @@
 TFN = ["True", "False", "Not stated"]
 
 # ---- Часть 1. Грамматика и лексика ----
+# На каждый уровень 4 вопроса: 2 на грамматику и 2 на лексику ("lexis": True).
 GRAMMAR = {
     "A1": [
         {"text": "My brother ___ in Moscow. (LIVE)", "options": ["lives", "live", "living", "is live"]},
-        {"text": "There are three new ___ in our class. (BOY)", "options": ["boys", "boyes", "boy", "boies"]},
-        {"text": "We ___ good friends. (BE)", "options": ["are", "is", "am", "be"]},
-        {"text": "This is ___ school bag. (I)", "options": ["my", "me", "mine", "I"]},
+        {"text": "My mother is a ___. She works in a hospital.", "options": ["doctor", "driver", "pilot", "farmer"], "lexis": True},
         {"text": "Kate ___ TV every evening. (WATCH)", "options": ["watches", "watchs", "watch", "watching"]},
+        {"text": "We usually have ___ at 8 o'clock in the morning.", "options": ["breakfast", "dinner", "supper", "lunch"], "lexis": True},
     ],
     "A2": [
         {"text": "Yesterday we ___ to the museum. (GO)", "options": ["went", "goed", "have gone", "go"]},
+        {"text": "She is a famous ___. (SING)", "options": ["singer", "singing", "song", "singed"], "lexis": True},
         {"text": "This summer was ___ than last summer. (HOT)", "options": ["hotter", "more hot", "hottest", "hoter"]},
-        {"text": "Look! The children ___ football in the yard. (PLAY)",
-         "options": ["are playing", "play", "plays", "played"]},
-        {"text": "She is a famous ___. (SING)", "options": ["singer", "singing", "song", "singed"]},
-        {"text": "I ___ my homework yet. (NOT FINISH)",
-         "options": ["haven't finished", "didn't finish", "don't finish", "not finished"]},
+        {"text": "I'm very ___ in science. (INTEREST)", "options": ["interested", "interesting", "interest", "interestingly"], "lexis": True},
     ],
     "B1": [
-        {"text": "The letter ___ two days ago. (SEND)",
-         "options": ["was sent", "sent", "has been sent", "is sent"]},
-        {"text": "If it ___ tomorrow, we will stay at home. (RAIN)",
-         "options": ["rains", "will rain", "rained", "would rain"]},
-        {"text": "Mary said that she ___ tired. (BE)", "options": ["was", "be", "were", "being"]},
-        {"text": "It was a warm and ___ day. (SUN)", "options": ["sunny", "sunful", "sunned", "sunning"]},
-        {"text": "The film was so ___ that we left early. (BORE)",
-         "options": ["boring", "bored", "boredom", "bore"]},
+        {"text": "The letter ___ two days ago. (SEND)", "options": ["was sent", "sent", "has been sent", "is sent"]},
+        {"text": "It was a warm and ___ day. (SUN)", "options": ["sunny", "sunful", "sunned", "sunning"], "lexis": True},
+        {"text": "If it ___ tomorrow, we will stay at home. (RAIN)", "options": ["rains", "will rain", "rained", "would rain"]},
+        {"text": "The film was so ___ that we left early. (BORE)", "options": ["boring", "bored", "boredom", "bore"], "lexis": True},
     ],
     "B2": [
-        {"text": "By the time we arrived, the concert ___. (ALREADY START)",
-         "options": ["had already started", "already started", "has already started", "was already starting"]},
-        {"text": "Smoking is ___ to your health. (HARM)", "options": ["harmful", "harmless", "harming", "harmed"]},
-        {"text": "He was ___ about his chances of winning. (OPTIMISM)",
-         "options": ["optimistic", "optimism", "optimist", "optimistically"]},
-        {"text": "The museum, ___ was built in 1850, attracts many tourists.",
-         "options": ["which", "that", "what", "who"]},
-        {"text": "The ___ of the new bridge took three years. (CONSTRUCT)",
-         "options": ["construction", "constructor", "constructive", "constructing"]},
+        {"text": "By the time we arrived, the concert ___. (ALREADY START)", "options": ["had already started", "already started", "has already started", "was already starting"]},
+        {"text": "Smoking is ___ to your health. (HARM)", "options": ["harmful", "harmless", "harming", "harmed"], "lexis": True},
+        {"text": "The museum, ___ was built in 1850, attracts many tourists.", "options": ["which", "that", "what", "who"]},
+        {"text": "The ___ of the new bridge took three years. (CONSTRUCT)", "options": ["construction", "constructor", "constructive", "constructing"], "lexis": True},
     ],
     "C1": [
-        {"text": "He ___ his success to hard work and a bit of luck.",
-         "options": ["attributed", "explained", "referred", "blamed"]},
-        {"text": "Hardly had the lesson begun ___ the fire alarm went off.",
-         "options": ["when", "than", "then", "that"]},
-        {"text": "The ___ of the town has doubled in ten years. (POPULATE)",
-         "options": ["population", "popularity", "populous", "populated"]},
-        {"text": "Although everyone knew she was wrong, she was ___ to admit it. (WILLING)",
-         "options": ["unwilling", "willingly", "unwillingly", "willingness"]},
-        {"text": "It was such a ___ performance that the audience stood up and cheered. (REMARK)",
-         "options": ["remarkable", "remarked", "remarking", "remarkably"]},
+        {"text": "Hardly had the lesson begun ___ the fire alarm went off.", "options": ["when", "than", "then", "that"]},
+        {"text": "The ___ of the town has doubled in ten years. (POPULATE)", "options": ["population", "popularity", "populous", "populated"], "lexis": True},
+        {"text": "If only I ___ more time to prepare for the exam! (HAVE)", "options": ["had", "have", "will have", "would have"]},
+        {"text": "Although everyone knew she was wrong, she was ___ to admit it. (WILLING)", "options": ["unwilling", "willingly", "unwillingly", "willingness"], "lexis": True},
     ],
 }
 
@@ -63,7 +45,7 @@ TASKS = {
     "listen_easy": {
         "kind": "listening",
         "voice": "af_bella", "speed": 0.88,
-        "intro": "🎧 <b>Аудирование</b> (формат ОГЭ)\n\nПослушай школьное объявление "
+        "intro": "🎧 <b>Часть 2. Аудирование</b> (формат ОГЭ)\n\nПослушай школьное объявление "
                  "и ответь на 4 вопроса. Можно слушать несколько раз.",
         "script": (
             "Good morning, everyone. This is an announcement for all students in years eight and nine. "
@@ -91,7 +73,7 @@ TASKS = {
         "kind": "listening",
         # Диалог: строки, которые начинаются с "Interviewer:" и "Anna:", озвучиваются разными голосами
         "voices": {"Interviewer": "am_michael", "Anna": "af_heart"}, "speed": 1.0,
-        "intro": "🎧 <b>Аудирование</b> (повышенный уровень)\n\nИнтервью с выпускницей. "
+        "intro": "🎧 <b>Часть 2. Аудирование</b> (повышенный уровень)\n\nИнтервью с выпускницей. "
                  "Ответь на 4 вопроса.",
         "script": (
             "Interviewer: So, Anna, you got one of the highest scores in the country in English. What was your secret?\n"
@@ -121,7 +103,7 @@ TASKS = {
     },
     "read_easy": {
         "kind": "reading",
-        "intro": "📖 <b>Чтение</b> (формат ОГЭ)\n\nПрочитай текст. Для каждого утверждения выбери: "
+        "intro": "📖 <b>Часть 3. Чтение</b> (формат ОГЭ)\n\nПрочитай текст. Для каждого утверждения выбери: "
                  "<b>True</b> (верно), <b>False</b> (неверно) или <b>Not stated</b> (в тексте не сказано).",
         "text": (
             "<b>Our School Trip</b>\n"
@@ -141,7 +123,7 @@ TASKS = {
     },
     "read_hard": {
         "kind": "reading",
-        "intro": "📖 <b>Чтение</b> (повышенный уровень)\n\nПрочитай статью и ответь на 4 вопроса.",
+        "intro": "📖 <b>Часть 3. Чтение</b> (повышенный уровень)\n\nПрочитай статью и ответь на 4 вопроса.",
         "text": (
             "<b>Teenagers and Sleep</b>\n"
             "\n"
