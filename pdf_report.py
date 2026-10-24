@@ -205,7 +205,7 @@ def build_pdf(level_key: str, level_title: str, description: str, user_name: str
         card([Table([[Paragraph(escape(code), level_big), Paragraph(escape(name), level_name)]],
                     colWidths=[48 * mm, CONTENT_W - 48 * mm - 32],
                     style=[("VALIGN", (0, 0), (-1, -1), "BOTTOM"), ("LEFTPADDING", (0, 0), (-1, -1), 0)]),
-              Spacer(1, 8), Paragraph(escape(description), lead)], background=ROSE),
+              Spacer(1, 8), Paragraph(escape(description), lead)]),
         Spacer(1, 10),
     ]
     if parts:
