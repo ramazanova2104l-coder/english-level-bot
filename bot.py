@@ -59,13 +59,16 @@ def kb(rows):
     )
 
 
-def result_kb():
-    return kb([
-        ("🎁 Записаться на бесплатный урок", "book"),
+def result_kb(level: str = ""):
+    rows = [("🎁 Записаться на бесплатный урок", "book")]
+    if level in ("A0", "A1"):  # начинающим сразу предлагаем курс с нуля
+        rows.append(("🌱 Курс «Английский с нуля до A2»", "fn:course_zero"))
+    rows += [
         ("💰 Форматы занятий и цены", "formats_new"),
         ("🗣️ Speaking Club", "club"),
         ("🔄 Пройти тест заново", "restart"),
-    ])
+    ]
+    return kb(rows)
 
 
 def user_label(user) -> str:
@@ -303,10 +306,10 @@ async def show_result(call: CallbackQuery, state: FSMContext):
         f"<b>Что это значит?</b> ✨\n{description}\n\n"
         + config.RESULT_NEXT_TEXT
     )
-    await state.update_data(level=title, score=breakdown, result_text=result_text)
+    await state.update_data(level=title, level_key=level, score=breakdown, result_text=result_text)
     await state.set_state(Test.done)
 
-    await call.message.answer(result_text, reply_markup=result_kb())
+    await call.message.answer(result_text, reply_markup=result_kb(level))
     pdf = build_pdf(level, title, description, call.from_user.first_name or "", track, data["goal"], parts)
     await call.message.answer_document(
         BufferedInputFile(pdf, filename=f"Как учить английский - {level if level != 'A0' else 'A1'}.pdf"),
@@ -382,6 +385,15 @@ async def formats_new(call: CallbackQuery):
     await call.answer()
 
 
+@dp.callback_query(F.data.startswith("fn:"))
+async def open_section_new(call: CallbackQuery):
+    """Раздел отдельным сообщением, чтобы не затирать результат теста."""
+    sec = SECTIONS.get(call.data[3:])
+    if sec:
+        await call.message.answer(sec["text"], reply_markup=section_kb(sec["buttons"]))
+    await call.answer()
+
+
 @dp.callback_query(F.data.startswith("f:"))
 async def open_section(call: CallbackQuery):
     sec = SECTIONS.get(call.data[2:])
@@ -405,9 +417,10 @@ async def open_price(call: CallbackQuery):
 
 @dp.callback_query(F.data == "results")
 async def back_to_results(call: CallbackQuery, state: FSMContext):
-    text = (await state.get_data()).get("result_text")
+    data = await state.get_data()
+    text = data.get("result_text")
     if text:
-        await show_text(call, text, result_kb())
+        await show_text(call, text, result_kb(data.get("level_key", "")))
     else:
         await show_text(call, "Результаты теста не сохранились. Пройди тест ещё раз, это займёт 8-10 минут.",
                         kb([("🔄 Пройти тест", "restart")]))
