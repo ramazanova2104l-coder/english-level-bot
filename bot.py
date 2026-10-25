@@ -134,7 +134,7 @@ async def choose_goal(call: CallbackQuery, state: FSMContext):
     await call.message.edit_text(
         f"Цель: <b>{html.escape(goal)}</b>\n\nПоехали! 🚀\n\n"
         "✏️ <b>Часть 1. Грамматика и лексика</b>\n"
-        "Вопросы будут постепенно усложняться. Если не знаешь ответ, нажми «🤷 Не знаю»: "
+        "Вопросы будут постепенно усложняться. Если не знаешь ответ, нажми «🤷🏽‍♀️ Не знаю»: "
         "так результат будет точнее, чем если угадывать."
     )
     await send_question(call.message, state, new_message=True)
@@ -144,7 +144,7 @@ async def choose_goal(call: CallbackQuery, state: FSMContext):
 # ---------- вопросы ----------
 
 MEDIA = Path(__file__).with_name("media")
-DONT_KNOW = "🤷 Не знаю"
+DONT_KNOW = "🤷🏽‍♀️ Не знаю"
 
 
 def audio_file(track: str, task: str):
