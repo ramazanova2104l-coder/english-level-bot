@@ -6,13 +6,16 @@
 # 2. Одно аудио и один текст. Если грамматика ниже B1, даётся базовое задание (A2-B1),
 #    если B1 и выше - сложное (B2).
 # 3. Итог: средний из трёх результатов (грамматика, аудирование, чтение), но не выше грамматики.
-#    C1 ставится только при безошибочной грамматике B2 и C1 и безошибочных сложных заданиях.
+#    Кто прошёл всё без ошибок (грамматика B2 и C1 4 из 4, сложные аудио и текст 4 из 4),
+#    получает бонусный блок C1: сложное аудио и короткий текст (файл tracks/c1.py).
+#    C1 ставится, только если и в бонусном блоке верно минимум 3 из 4 в каждом задании.
 #    На каждый вопрос есть кнопка «Не знаю», чтобы не угадывать.
 
 LEVELS = ["A1", "A2", "B1", "B2", "C1"]
 ORDER = ["A0"] + LEVELS  # A0 - ниже A1
 PER_LEVEL = 4   # сколько вопросов грамматики на каждый уровень
 PASS_SCORE = 3  # сколько из них нужно решить, чтобы уровень засчитался
+C1_PASS = 3     # сколько верных из 4 нужно в каждом бонусном задании C1
 
 # Описание результата для ученика
 RESULTS = {
@@ -59,20 +62,30 @@ def use_hard_tasks(grammar: str) -> bool:
     return ORDER.index(grammar) >= ORDER.index("B1")
 
 
-def skill_level(score: int, hard: bool) -> str:
+def skill_level(score: int, hard: bool, c1: bool = False) -> str:
     """Уровень аудирования или чтения по одному заданию из 4 вопросов.
-    Базовое задание: максимум B1. Сложное: максимум B2 (по короткому заданию C1 не определить)."""
+    Базовое задание: максимум B1. Сложное: максимум B2.
+    Бонусное C1: до него доходят только с 4 из 4 в сложном, поэтому ниже B2 не опускаем."""
+    if c1:
+        return "C1" if score >= C1_PASS else "B2"
     if not hard:
         return {0: "A0", 1: "A1", 2: "A2", 3: "A2", 4: "B1"}[score]
     return {0: "A2", 1: "B1", 2: "B1", 3: "B2", 4: "B2"}[score]
 
 
-def final_level(parts: list, grammar_scores: dict = None, perfect_tasks: bool = False) -> str:
+def c1_bonus_unlocked(grammar_scores: dict, task_scores: dict) -> bool:
+    """Бонусный блок C1 открывается, только если весь тест пройден без ошибок."""
+    return (grammar_scores.get("B2", 0) == PER_LEVEL and grammar_scores.get("C1", 0) == PER_LEVEL
+            and task_scores.get("read_hard") == 4
+            and task_scores.get("listen_hard", 4) == 4)
+
+
+def final_level(parts: list, grammar_scores: dict = None, c1_passed: bool = False) -> str:
     """Итог по частям теста.
     1. Средний результат из трёх частей (при двух частях - меньший).
     2. Итог не выше грамматики: она проверена большим числом вопросов и надёжнее коротких заданий.
-    3. C1 только в исключительном случае: C1 и B2 по грамматике без единой ошибки
-       и сложные аудио и текст тоже без ошибок. Иначе максимум B2."""
+    3. C1 только в исключительном случае: весь тест без ошибок и бонусный блок C1 пройден
+       (минимум 3 из 4 в каждом задании). Иначе максимум B2."""
     ranked = sorted(parts, key=ORDER.index)
     level = ranked[1] if len(ranked) == 3 else ranked[0]
     grammar = parts[0]
@@ -80,7 +93,7 @@ def final_level(parts: list, grammar_scores: dict = None, perfect_tasks: bool = 
         level = grammar
     scores = grammar_scores or {}
     c1 = (grammar == "C1" and scores.get("C1", 0) == PER_LEVEL and scores.get("B2", 0) == PER_LEVEL
-          and perfect_tasks)
+          and c1_passed)
     if level == "C1" or c1:
         level = "C1" if c1 else "B2"
     return level

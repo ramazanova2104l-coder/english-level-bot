@@ -37,8 +37,8 @@ from formats import (BUY_NAMES, BUY_TEXT, PRICES, QUIZ, QUIZ_CANDIDATES, QUIZ_RE
 from pdf_report import build_pdf
 from price_image import price_png
 from question_ru import GRAMMAR_HINT, LEXIS_HINT, QUESTION_RU, TFN_HINT
-from questions import (LEVELS, PASS_SCORE, PER_LEVEL, RESULTS, final_level, grammar_level, skill_level,
-                       use_hard_tasks)
+from questions import (C1_PASS, LEVELS, PASS_SCORE, PER_LEVEL, RESULTS, c1_bonus_unlocked, final_level,
+                       grammar_level, skill_level, use_hard_tasks)
 from tracks import TRACKS
 
 LEADS_FILE = Path(__file__).with_name("leads.csv")
@@ -148,10 +148,12 @@ DONT_KNOW = "🤷🏽‍♀️ Не знаю"
 
 
 def audio_file(track: str, task: str):
-    for ext in ("mp3", "m4a", "ogg", "wav"):
-        path = MEDIA / f"{track}_{task}.{ext}"
-        if path.exists():
-            return path
+    # сначала аудио под цель (general_listen_hard.mp3), потом общее на все цели (listen_c1.mp3)
+    for name in (f"{track}_{task}", task):
+        for ext in ("mp3", "m4a", "ogg", "wav"):
+            path = MEDIA / f"{name}.{ext}"
+            if path.exists():
+                return path
     return None
 
 
@@ -199,6 +201,8 @@ async def send_question(message: Message, state: FSMContext, new_message=False):
     else:
         kind = TRACKS[track].TASKS[block[1]]["kind"]
         label = ("🎧 Аудирование" if kind == "listening" else "📖 Чтение") + f" · вопрос {qi + 1} из {len(questions)}"
+        if block[1].endswith("_c1"):
+            label = "🔥 C1 · " + label
     text = f"{label}\n\n<b>{html.escape(q['text'])}</b>"
     if block[0] == "g":
         hint = LEXIS_HINT if q.get("lexis") else GRAMMAR_HINT
@@ -228,6 +232,12 @@ def plan_next_blocks(data: dict) -> list:
             if audio_file(track, f"listen_{level}"):
                 extra.append(["t", f"listen_{level}"])
             extra.append(["t", f"read_{level}"])
+    elif key == "read_hard":  # всё без ошибок: открываем бонусный блок C1
+        tasks = {k[2:]: v for k, v in scores.items() if k.startswith("t:")}
+        if c1_bonus_unlocked(grammar_scores(scores), tasks):
+            if audio_file(track, "listen_c1"):
+                extra.append(["t", "listen_c1"])
+            extra.append(["t", "read_c1"])
     return blocks[:bi + 1] + extra + blocks[bi + 1:]
 
 
@@ -271,9 +281,9 @@ async def answer(call: CallbackQuery, state: FSMContext):
 
 
 def skill_result(scores: dict, part: str):
-    for level in ("easy", "hard"):
+    for level in ("c1", "hard", "easy"):  # если был бонусный блок C1, считаем по нему
         if f"t:{part}_{level}" in scores:
-            return skill_level(scores[f"t:{part}_{level}"], level == "hard")
+            return skill_level(scores[f"t:{part}_{level}"], level == "hard", c1=level == "c1")
     return None
 
 
@@ -289,9 +299,9 @@ async def show_result(call: CallbackQuery, state: FSMContext):
     if "t:listen_easy" in done or "t:listen_hard" in done:
         parts["Аудирование"] = skill_result(scores, "listen")
     parts["Чтение"] = skill_result(scores, "read")
-    tasks = [v for k, v in scores.items() if k.startswith("t:")]
-    perfect = all(k.endswith("_hard") for k in scores if k.startswith("t:")) and all(v == 4 for v in tasks)
-    level = final_level(list(parts.values()), grammar_scores(scores), perfect)
+    c1_tasks = [v for k, v in scores.items() if k.startswith("t:") and k.endswith("_c1")]
+    c1_passed = bool(c1_tasks) and all(v >= C1_PASS for v in c1_tasks)
+    level = final_level(list(parts.values()), grammar_scores(scores), c1_passed)
     title, description = RESULTS[level]
     breakdown = " · ".join(f"{name}: {lvl}" for name, lvl in parts.items())
     code = title.split("(")[-1].rstrip(")")

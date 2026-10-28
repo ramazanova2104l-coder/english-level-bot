@@ -125,4 +125,17 @@ QUESTION_RU = {
         "Зачем они давали всем растениям одинаково воды и света?",
     "What was the result?": "Какой получился результат?",
     "What did the teacher think about the result?": "Что учитель подумал о результате?",
+
+    # Бонусный блок C1 (общий для всех целей)
+    "What is the \"illusion of explanatory depth\"?": "Что такое «иллюзия глубины понимания»?",
+    "What does the speaker find most striking?": "Что больше всего поражает говорящего?",
+    "Why did people's views on the policy become more moderate?":
+        "Почему взгляды людей на эту политику стали более умеренными?",
+    "What is the speaker's attitude to these findings?": "Как говорящий относится к этим результатам?",
+    "\"It has become something of a truism\" suggests that the idea is...":
+        "Фраза «It has become something of a truism» значит, что эта мысль...",
+    "Why do difficult books and music compete \"at a disadvantage\"?":
+        "Почему сложные книги и музыка конкурируют «в невыгодном положении»?",
+    "What does the writer see as the real danger?": "В чём автор видит настоящую опасность?",
+    "Which statement best reflects the writer's view?": "Какое утверждение лучше всего передаёт позицию автора?",
 }
